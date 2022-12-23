@@ -12,9 +12,9 @@ library("coRdon")
 ###################################################################################################################
 
 #### before running the script, make sure the fasta format is without spaces:
- for i in *cleaned.ali-gb90;do sed "s/ //g" $i >$i\_sspace;done
+# for i in *cleaned.ali-gb90;do sed "s/ //g" $i >$i\_sspace;done
 
-FAM_files=Sys.glob("*sspace")
+FAM_files=Sys.glob("*formatted")
 length(FAM_files)
 
 #fonction GC ############# seqinr ##################
@@ -46,7 +46,7 @@ CUB_analysis<-function(k){
   return(cbind(cub,k))
   }
 
-cub_k<-lapply(FAM_files[1:22], CUB_analysis) ## run the CUB analysis function on the files 
+cub_k<-lapply(FAM_files, CUB_analysis) ## run the CUB analysis function on the files (FAM_files[1:22]
 
 ################ data analysis #######################
 cub_table<-do.call(rbind,cub_k) #dataframe contening CUB stats for all genes 
@@ -63,4 +63,6 @@ length(which(cub_table$ENCprime<0))
 filtered_cub_table<-subset(cub_table,ENCprime>20)
 summary(filtered_cub_table)
 write.table(filtered_cub_table,file = "filtered_cub_table.txt",sep="\t",na = "NA", dec = ".", row.names = FALSE,col.names = TRUE,append = FALSE)
+
+#scp 
 
