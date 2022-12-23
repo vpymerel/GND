@@ -15,7 +15,7 @@ You will find in this repository scripts and data corresponding to **Publication
 
 ## GC_CU (GC and Codon Usage)
 
-- Script.R, this script was used to calcultate: GC, GC3, ENC', MCB, and SCUO from alignments
+- Script.R, this script was used to calcultate: GC, GC3, ENC', MCB, and SCUO from alignments.
 
 ## ancov
 
