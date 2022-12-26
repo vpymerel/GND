@@ -1,0 +1,83 @@
+genera	species	id	Genome size source	Genome size (Mb)
+Drosophila	affinis	affinis	AGSbd	185.8
+Drosophila	albomicans	Dalbomicans	 Hjelmen et al. 2019*	215.9
+Drosophila	ambigua	ambigua	AGSbd	176.04
+Drosophila	americana	Damericana	AGSbd	273.84
+Drosophila	ananassae	dana	AGSbd	195.6
+Drosophila	arizonae	Darizonae	 Hjelmen et al. 2019*	173.9
+Drosophila	athabasca	athabasca	This study	215.649
+Drosophila	athabasca	Dathabasca	This study	215.649
+Drosophila	azteca	azteca	This study	216
+Drosophila	barbarae	barbarae	AGSbd	195.6
+Drosophila	biarmipes	Dbiarmipes	AGSbd	195.6
+Drosophila	bifasciata	bifasciata	AGSbd	195.6
+Drosophila	bipectinata	Dbipectinata	AGSbd	195.6
+Drosophila	busckii	Dbusckii	AGSbd	136.92
+Drosophila	diplacantha	diplacantha	AGSbd	224.94
+Drosophila	elegans	Delegans	AGSbd	195.6
+Drosophila	equinoxialis	equinoxialis	AGSbd	244.5
+Drosophila	ercepeae	ercepae	AGSbd	215.16
+Drosophila	erecta	dere	AGSbd	146.7
+Drosophila	eugracilis	Deugracilis	AGSbd	224.94
+Drosophila	ficusphila	Dficusphila	AGSbd	185.82
+Drosophila	grimshawi	dgri	AGSbd	244.5
+Drosophila	guanche	guanche	This study	204.7932
+Drosophila	guanche	Dguanche	This study	204.7932
+Drosophila	helvetica	helvetica	NA	NA
+Drosophila	hydei	Dhydei	AGSbd	205.38
+Drosophila	imaii	imaii	This study	241.2726
+Drosophila	kikkawai	Dkikkawai	AGSbd	205.38
+Drosophila	lacertosa	Dlacertosa	 Hjelmen et al. 2019*	298
+Drosophila	lowei	Dlowei	NA	NA
+Drosophila	lucipennis	lucipennis	AGSbd	264.06
+Drosophila	lutescens	lutescens	This study	227.06
+Drosophila	madeirensis	madeirensis	NA	NA
+Drosophila	malerkotliana	malerkotliana	AGSbd	195.6
+Drosophila	mauritiana	Dmauritiana	AGSbd	146.7
+Drosophila	melanica	Dmelanica	 Hjelmen et al. 2019*	175.9
+Drosophila	melanogaster	BDGP6	AGSbd	176.04
+Drosophila	mercatorum	me07rcatorum	This study	198.9252
+Drosophila	mercatorum	me39rcatorum	This study	186.309
+Drosophila	microlabis	microlabis	This study	244.5
+Drosophila	micromelanica	Dmicromelanica	 Hjelmen et al. 2019*	207.1
+Drosophila	mimetica	mimetica	This study	233.5464
+Drosophila	miranda	Dmiranda	AGSbd	176.04
+Drosophila	mojavensis	dmoj	AGSbd	166.26
+Drosophila	montana	Dmontana	 Hjelmen et al. 2019*	240.6
+Drosophila	nasuta	Dnasuta	 Hjelmen et al. 2019*	242.4
+Drosophila	navojoa	Dnavojoa	 Hjelmen et al. 2019*	170
+Drosophila	nebulosa	nebulosa	AGSbd	185.82
+Drosophila	nigromelanica	Dnigromelanica	NA	NA
+Drosophila	novamexicana	Dnovamexicana	AGSbd	244.5
+Drosophila	obscura	obscura	This study	210.27
+Drosophila	obscura	Dobscura	This study	210.27
+Drosophila	pallidosa	pallidosa	AGSbd	190.71
+Drosophila	parabipectinata	pbipectinata	AGSbd	205.38
+Drosophila	paralutea	paralutea	AGSbd	224.94
+Drosophila	paulistorum	paulistrom	This study	249.0966
+Drosophila	persimilis	dper	AGSbd	176.04
+Drosophila	phaeopleura	phaeopleura	AGSbd	195.6
+Drosophila	prosaltans	psaltans	This study	213.4974
+Drosophila	prostipennis	prostipennis	AGSbd	224.94
+Drosophila	pseudoananassae	pseudoananassae	AGSbd	224.94
+Drosophila	pseudoobscura	Dpse	AGSbd	146.7
+Drosophila	pseudotakahashii	pstakahashi	AGSbd	205.38
+Drosophila	rhopaloa	Drhopaloa	NA	NA
+Drosophila	robusta	Drobusta	 Hjelmen et al. 2019*	241.6
+Drosophila	sechellia	dsec	AGSbd	166.26
+Drosophila	serrata	Dserrata	AGSbd	205.38
+Drosophila	simulans	dsim	AGSbd	144.255
+Drosophila	subobscura	subobscura	This study	190.8078
+Drosophila	subobscura	Dsubobscura	This study	190.8078
+Drosophila	suzukii	Dsuzukii	This study	316.2852
+Drosophila	takahashii	Dtakahashii	AGSbd	195.6
+Drosophila	teissieri	teissieri	This study	171.0522
+Drosophila	tsukubaensis	tsukubaensis	This study	218.8764
+Drosophila	varians	varians	AGSbd	156.48
+Drosophila	virilis	dvir	AGSbd	332.52
+Drosophila	willistoni	dwil	AGSbd	205.38
+Drosophila	yakuba	dyak	AGSbd	161.37
+Scaptodrosophila	lebanonensis	Slebanonensis	AGSbd	215.16
+Zaprionus	africanus	Zafricanus	This study	290.66
+Zaprionus	gabonicus	Zgabonicus	This study	241.83
+Zaprionus	indianus	Zindianus	This study	236.77

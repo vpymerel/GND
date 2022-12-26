@@ -1,0 +1,103 @@
+Building traits file
+
+# Genome size
+
+```{R}
+library(dplyr)
+
+GS <- read.delim("~/gnd/Supplementary/GS.csv")
+colnames(GS)=c("genera",
+               "species",
+                "Id",
+                "Source",
+               "GS")
+              
+GS <- GS %>% dplyr::select(Id, GS)   
+```
+
+# Dev. time
+
+```{R}
+library(dplyr)
+
+Dev_time <- read.delim("~/gnd/Supplementary/Dev_time.csv")
+colnames(Dev_time)=c("genera",
+                 "species",
+                 "Id",
+                 "Dev")
+              
+Dev_time <- Dev_time %>% dplyr::select(Id, Dev)
+
+df <- full_join(GS, Dev_time, by="Id")
+```
+
+#  Rep
+
+```{R, eval=F}
+#Importing Table
+dnaPipeTE <- read.csv("/home/vincent/DTN/dnaPipeTE/results.synth.txt", sep="")
+head(dnaPipeTE)
+
+#levels(dnaPipeTE$Categ)
+#in Mb
+dnaPipeTE$Nbp <- dnaPipeTE$Nbp/1e6
+
+#Median of replicates
+dnaPipeTE <- dnaPipeTE %>% dplyr::group_by(Id,Categ) %>%  dplyr::summarize(Nbp=median(Nbp))
+
+#Adding TE 
+head(dnaPipeTE)
+dnaPipeTE <- dnaPipeTE %>% tidyr::pivot_wider(id_cols = c(Id,Categ),
+                                              names_from =  Categ,
+                                              values_from = Nbp)
+dnaPipeTE <- dnaPipeTE %>%
+  dplyr::select(c("DNA","Helitron","LINE","LTR","SINE"))%>%
+  mutate(TEs=DNA+Helitron+LINE+LTR+SINE)
+
+#
+df <- full_join(df,dnaPipeTE,by="Id")
+
+
+#df[df==0] <- 1e-09
+
+```
+
+# Writting file
+
+```{R, eval=F}
+#ancov want -1 for missing values
+df[is.na(df)] <- -1
+
+#0 value must be removed since
+summary(df==0)
+#1 SINE==0
+df$SINE[df$SINE==0]<-1e-12
+summary(df==0)
+```
+
+## Writting file
+
+```{R, eval=F}
+
+#An actual ".tsv", will be usefull for coevol traits file
+write.table(df,
+            "/home/vincent/gnd/ancov/Traits.tsv",
+            sep="\t",
+            quote=F, 
+            row.names = F)
+
+#As requested for ancov
+cat("#TRAITS\n82\t8",
+    file="/home/vincent/gnd/ancov/Traits.csv")
+colnames(df)[1]=''
+
+write.table(df,
+            "/home/vincent/gnd/ancov/Traits.csv",
+            sep="\t",
+            append=TRUE,
+            quote=F, 
+            row.names = F)
+
+
+
+```

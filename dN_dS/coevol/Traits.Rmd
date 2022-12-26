@@ -1,0 +1,138 @@
+Building traits file, ENC and SCUO will vary between concatenates
+
+# Genome size, Dev. time and TE abundances
+
+We can use the file built for ancov
+
+```{R}
+#scp /home/vincent/gnd/ancov/Traits.tsv merel@pbil-gates.univ-lyon1.fr:/beegfs/data/merel/GND/ancov
+ancov_traits <- read.delim("/beegfs/data/merel/GND/ancov/Traits.tsv")
+```
+
+# Adding ENC and SCUO and writting files
+
+```{R}
+#cd /beegfs/data/merel/DTN/Alignments/; R
+library("dplyr")
+library("stringr")
+
+cub_table <- read.table(file = "cub_table.txt", dec = ".",h=TRUE)
+
+#Solving a NA problem
+##For 4 genes, only gaps remain for some sequences after filtering, generating NA
+#less 
+##These sequences (and not genes) are excluded
+summary(is.na(cub_table))
+cub_table[is.na(cub_table$GC3),]
+cub_table <- cub_table[!is.na(cub_table$GC3),]
+
+##Iterating over concatenates
+Concatenates=Sys.glob("Aln*txt")
+
+for (Concatenate in Concatenates){
+  
+  Concatenate_name=strsplit(Concatenate, split="\\.")[[1]][1]
+  
+  #A vector of gene id (FAM..)
+  Genes <- read.table(file = Concatenate, sep = "\t", h=FALSE)
+  Genes <- as.vector(strsplit(Genes$V1, split=" ")[[1]])
+  Genes <- str_remove(Genes, pattern=".noStop_noFS")
+  
+  #Extracting genes from cub_table
+  cub_table_interest <- cub_table %>%
+    filter(grepl(paste(Genes,collapse="|"),genes))
+  length(unique(cub_table_interest$gene))
+  
+  #Summarizing, i.e. median per ID
+  cub_table_interest <- cub_table_interest %>% group_by(species) %>%
+  summarize(ENCprime=median(ENCprime),
+            SCUO=median(SCUO))
+  
+  #joining ancov_traits and cub_table_interest
+  colnames(cub_table_interest) <- c("Id","ENCprime","SCUO")
+  df <- full_join(ancov_traits, cub_table_interest, by="Id")
+  
+  #converting ENCprime and SCUO to exp
+  cub_table_interest$ENCprime <- exp(cub_table_interest$ENCprime)
+  cub_table_interest$SCUO <- exp(cub_table_interest$SCUO)
+  
+  #Writting in coevol format 
+  cat("#TRAITS\n82\t10",
+    file=paste("/beegfs/data/merel/GND/dN_dS/coevol/",
+               Concatenate_name,"_Traits.csv",
+               sep=""))
+
+  colnames(df)[1]=''
+  
+  write.table(df,
+            paste("/beegfs/data/merel/GND/dN_dS/coevol/",
+               Concatenate_name,"_Traits.csv",
+               sep=""),
+            sep="\t",
+            append=TRUE,
+            quote=F, 
+            row.names = F)
+}
+
+```
+
+#  Rep
+
+```{R, eval=F}
+#Importing Table
+dnaPipeTE <- read.csv("/home/vincent/DTN/dnaPipeTE/results.synth.txt", sep="")
+head(dnaPipeTE)
+
+#levels(dnaPipeTE$Categ)
+#in Mb
+dnaPipeTE$Nbp <- dnaPipeTE$Nbp/1e6
+
+#Median of replicates
+dnaPipeTE <- dnaPipeTE %>% dplyr::group_by(Id,Categ) %>%  dplyr::summarize(Nbp=median(Nbp))
+
+#Adding TE 
+head(dnaPipeTE)
+dnaPipeTE <- dnaPipeTE %>% tidyr::pivot_wider(id_cols = c(Id,Categ),
+                                              names_from =  Categ,
+                                              values_from = Nbp)
+dnaPipeTE <- dnaPipeTE %>%
+  dplyr::select(c("DNA","Helitron","LINE","LTR","SINE"))%>%
+  mutate(TEs=DNA+Helitron+LINE+LTR+SINE)
+
+#
+df <- full_join(df,dnaPipeTE,by="Id")
+
+
+#df[df==0] <- 1e-09
+
+```
+
+# Writting file
+
+```{R, eval=F}
+#ancov want -1 for missing values
+df[is.na(df)] <- -1
+
+#0 value must be removed since
+summary(df==0)
+#1 SINE==0
+df$SINE[df$SINE==0]<-1e-12
+summary(df==0)
+```
+
+## Writting file
+
+```{R, eval=F}
+
+cat("#TRAITS\n82\t8",
+    file="/home/vincent/gnd/ancov/Traits.csv")
+colnames(df)[1]=''
+
+write.table(df,
+            "/home/vincent/gnd/ancov/Traits.csv",
+            sep="\t",
+            append=TRUE,
+            quote=F, 
+            row.names = F)
+
+```
