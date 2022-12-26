@@ -1,0 +1,29 @@
+alphabet = Codon(letter=DNA)
+genetic_code=Standard
+
+#DATA=FAM000450_NT-gb
+REP=.
+RDATA=.
+
+## data
+
+input.data1=alignment(file = $(DATA).fa, sites_to_use = all)
+
+input.tree1=user(file= $(REP)/$(DATA)_ml.nhx_1)
+
+## ml process
+
+param = $(REP)/$(DATA).params
+
+## mapping
+
+nullProcessParams = YN98.omega*=1
+
+### Type of event counted
+
+map.type = DnDs
+
+output.counts = PerBranch(prefix=$(REP)/$(DATA).counts)
+
+
+

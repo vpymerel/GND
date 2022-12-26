@@ -4,7 +4,6 @@
 library("seqinr") # sequences manipulation
 library("coRdon")
 
-
 ###################################################################################################################
 #### reference of comparison among codon usage bias indices: https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5805967/
 #### link to coRdon package usage: https://www.bioconductor.org/packages/devel/bioc/manuals/coRdon/man/coRdon.pdf
@@ -59,38 +58,6 @@ head(cub_table)
 length(unique(cub_table$genes))
 length(which(cub_table$ENCprime<0))
 
-
-################ Choosing genes for concatenates #######################
-cub_table<-read.table(file = "cub_table.txt", dec = ".",h=TRUE)
-
-#Solving a NA problem
-##For 4 genes, only gaps remain for some sequences after filtering, generating NA
-##These sequences (and not genes) are excluded
-summary(is.na(cub_table))
-cub_table[is.na(cub_table$GC3),]
-
-
-cub_table <- cub_table[!is.na(cub_table$GC3),]
-
-##sorting
-sorted_cub_table <- cub_table[order(cub_table$GC3),]
-
-##Random concatenates
-#min(cub_table$GC3, na.rm=T)
-#sorted_cub_table[sorted_cub_table$GC3==min(cub_table$GC3, na.rm=T),]
-#max()
-
-#Low GC concatenate
-head(sorted_cub_table, 20)
-
-#High GC concatenate
-tail(sorted_cub_table, 20)
-
-#Median
-median(
-
-
-##
 
 
 ###### filter for outliers (ENC prime estimates <20)

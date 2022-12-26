@@ -1,0 +1,43 @@
+alphabet=Codon(letter=DNA)
+genetic_code=Standard
+
+#DATA=FAM000450_NT-gb
+REP=.
+RDATA=.
+
+input.data1=alignment(file = $(RDATA)/$(DATA).fa, sites_to_use = all)
+
+input.tree1=user(file=Tree.nwk)
+
+
+# Substitution model parameters:
+
+model1=YN98(frequencies=F3X4, initFreq=observed, data=1)
+
+root_freq1=F3X4(init=observed, data=1)
+
+process1 = Homogeneous(model=1, tree=1, root=1)
+
+phylo1 = Single(process=1, data=1)
+
+
+# ----------------------------------------------------------------------------------------
+#                                     Optimization
+# ----------------------------------------------------------------------------------------
+
+optimization.verbose = 1
+
+optimization.max_number_f_eval = 1000
+optimization.tolerance = 10
+optimization.message_handler = none
+optimization.method=fullD //[DB|fullD]
+optimization.method_DB.nstep=1
+
+# Should we write the resulting tree? none or file name.
+output.tree.file = $(REP)/$(DATA)_ml.nhx
+output.tree.format = NHX
+
+# model ouput file:
+
+output.estimates=$(REP)/$(DATA).params
+
