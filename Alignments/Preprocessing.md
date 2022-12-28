@@ -23,7 +23,14 @@ MACSE pinpoints frameshifts using the "!" character (see https://bioweb.supagro.
 
 
 echo '#!/bin/bash
-
+#SBATCH --time=12:00:00
+#SBATCH --nodes=1
+#SBATCH --ntasks-per-node=2
+#SBATCH --mem=8gb
+#SBATCH -o /beegfs/data/merel/GND/Alignments/exportAlignment.out
+#SBATCH -e /beegfs/data/merel/GND/Alignments/exportAlignment.err
+#SBATCH --job-name=exportAlignment
+  
 cd /beegfs/data/merel/GND/Alignments/
 
 for i in /beegfs/data/merel/GND/Alignments/*_NT-gb;
@@ -40,11 +47,9 @@ do
   rm ${i}_AA.formatted
 
 done
-' > exportAlignment.sh
+' > /beegfs/data/merel/GND/Alignments/exportAlignment.sh
 
-nohup sh exportAlignment.sh &> exportAlignment.log & 
-
-
+sbatch /beegfs/data/merel/GND/Alignments/exportAlignment.sh
 
 
 ```

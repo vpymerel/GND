@@ -1,13 +1,13 @@
 
 ```bash
-cd /beegfs/data/merel/DTN/Alignments/ 
+cd /beegfs/data/merel/GND/Alignments/ 
 mkdir -p /beegfs/data/merel/GND/dN_dS/coevol/Runs
 
 for Aln in Aln*fa
 do
 
 	mkdir -p /beegfs/data/merel/GND/dN_dS/coevol/Runs/${Aln::-3}
-  cp /beegfs/data/merel/DTN/Alignments/$Aln  /beegfs/data/merel/GND/dN_dS/coevol/Runs/${Aln::-3}/
+  cp /beegfs/data/merel/GND/Alignments/${Aln::-3}.phy  /beegfs/data/merel/GND/dN_dS/coevol/Runs/${Aln::-3}/
   cp /beegfs/data/merel/GND/dN_dS/mapNH/Test/Tree.nwk /beegfs/data/merel/GND/dN_dS/coevol/Runs/${Aln::-3}/
   
   
@@ -27,14 +27,14 @@ cd /beegfs/data/merel/GND/dN_dS/coevol/Runs/'"${Aln::-3}"'
   
 /beegfs/home/merel/coevol/data/coevol \
 -f \
--d ../'"$Aln"'.phy \
--t ../Tree.nwk \
--c /beegfs/data/merel/DTN/ancov_exp/Traits.exp.csv \
+-d '"${Aln::-3}"'.phy \
+-t Tree.nwk \
+-c /beegfs/data/merel/GND/dN_dS/coevol/'"${Aln::-3}"'_Traits.csv \
 -dsom \
-'"$Aln"'.'"$X"'
-' > /beegfs/data/merel/DTN/Ne_omega/coevol/$Aln/$Aln.$X.sh
+'"${Aln::-3}"'.'"$X"'
+' > /beegfs/data/merel/GND/dN_dS/coevol/Runs/${Aln::-3}/${Aln::-3}.$X.sh
   
-  sbatch /beegfs/data/merel/DTN/Ne_omega/coevol/$Aln/$Aln.$X.sh
+  sbatch /beegfs/data/merel/GND/dN_dS/coevol/Runs/${Aln::-3}/${Aln::-3}.$X.sh
   done
 done
 
