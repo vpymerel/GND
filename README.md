@@ -6,11 +6,14 @@ You will find in this repository scripts and data corresponding to **Publication
 
 ## TEs
 
+## Phylogenetic inertia
 
 ## ancov
 
 - Traits.Rmd: to build ancov traits file;
-- Run.md: to run ancov.
+- Run.md: to run ancov;
+- Traces.md: to check convergence;
+- PGLS: a PGLS analysis to compare.
 
 ## Alignments
 

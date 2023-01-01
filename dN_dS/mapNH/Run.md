@@ -25,8 +25,10 @@ cd /beegfs/data/merel/GND/dN_dS/mapNH/Runs/'"${Aln::-3}"'
 
 $HOME/.local/bin/bppml \
 DATA='"${Aln::-3}"' \
-param=../../base.bpp > base.log 
+param=../../base.bpp > base.log
+
 echo "Plop"
+
 $HOME/.local/bin/mapnh \
 DATA='"${Aln::-3}"' \
 param=../../map_dNdS.bpp > mapnh.log 

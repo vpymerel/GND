@@ -1,38 +1,37 @@
 
 
 ```{r, eval=F}
+
 library(ape)
 library(caper)
 library(dplyr)
-library(knitr)
-library(kableExtra)
+#library(knitr)
+#library(kableExtra)
 
-####################PGLS####################
-
-PGLS_df <- data.frame(start = numeric(),
-                 cov = character(),
-                 cor = character(),
-                 PGLs_p = numeric(),
-                 PGLs_cor = numeric())
-
-#Importing traits
-TRAITS <- read.delim("/home/vincent/DTN/ancov/Traits.R.csv")
-colnames(TRAITS)[1]="Id"
-
-ID = TRAITS$Id
-
-#Selecting traits
-#TRAITS <- TRAITS %>% dplyr::select(c("GS","DNA","Helitron","LINE","LTR","na","others","rRNA","SINE", "short_SR", "TEs", "All"))
-TRAITS <- TRAITS %>% dplyr::select(-c("Id"))
-TRAITS[TRAITS == -1] <- NA
-
-#for PGLS
+#Importing tree
 tree <- read.tree("/home/vincent/DTN/Tree/root_droso_tree_MF")
 tree$node.label <- NULL #VM
 
-#
-X_Names <- colnames(TRAITS)
-Y_Names <- colnames(TRAITS)
+#Importing traits
+Traits <- read.delim("~/gnd/ancov/Traits.tsv")
+
+#An empty data.frame to fill
+df <- data.frame(
+  X = character(),
+  Y = character(),
+  PGLs_p = numeric(),
+  PGLs_cor = numeric())
+
+
+
+ID <- Traits$Id
+Traits <- Traits %>% dplyr::select(-c("Id","Dev"))
+X_Names <- colnames(Traits)
+Y_Names <- colnames(Traits)
+
+#Restoring NA
+Traits[Traits == -1] <- NA
+
 
 for (X_Name in X_Names){
   
@@ -40,8 +39,8 @@ for (X_Name in X_Names){
   
   for (Y_Name in Y_Names){
 
-    X <- TRAITS[,colnames(TRAITS) %in% X_Name]
-    Y <- TRAITS[,colnames(TRAITS) %in% Y_Name]
+    X <- Traits[,colnames(Traits) %in% X_Name]
+    Y <- Traits[,colnames(Traits) %in% Y_Name]
     
     data <- cbind(as.character(ID), log(X), log(Y))
     colnames(data) <- c("ID","Yaxis","Xaxis")
@@ -56,26 +55,21 @@ for (X_Name in X_Names){
       ID, 
       vcv=TRUE)
     
-    PGLS <- pgls(Yaxis ~ Xaxis,pgls_data)
+    PGLS <- pgls(Yaxis ~ Xaxis, pgls_data) #lambda='ML', delta='ML'
     summary_PGLS <- summary(PGLS)
     
-    COR <- paste(X_Name, Y_Name, sep=":")
     PGLs_P <- summary_PGLS$coefficients[2,4]
     PGLs_COR <- summary_PGLS$coefficients[2,1]
-    tmp <- data.frame(start = -1.570796,
-                      cov = X_Name,
-                      cor = COR,
+    tmp <- data.frame(X = X_Name,
+                      Y = Y_Name,
                       PGLs_p = PGLs_P,
                       PGLs_cor = PGLs_COR)
                       
-    PGLS_df <- rbind(PGLS_df,tmp)
+    df <- rbind(df,tmp)
     
 
     
   }
 }
 
-PGLS_df$PGLs_p <- p.adjust(PGLS_df$PGLs_p, method="BH")
-
-```
- 
+df$PGLs_p <- p.adjust(df$PGLs_p, method="BH")
