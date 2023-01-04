@@ -1,0 +1,113 @@
+
+# Import data
+
+```{R, eval=F}
+quast_busco_results <- read.delim("~/gnd/Assemblies/quast_busco_results.csv") 
+quast_busco_results$species <- c("D. affinis", #Y
+                                 "D. algonquin", #Y
+                                 "D. ambigua", #Y
+                                 "D. athabasca", #Y
+                                 "D. azteca", #Y
+                                 "D. barbarae", #Y
+                                 "D. bifasciata", #Y
+                                 "D. diplacantha", #Y
+                                 "D. equinoxialis", #Y
+                                 "D. ercepae", #Y
+                                 "D. guanche", #Y
+                                 "D. helevetica", #Y
+                                 "D. imaii", #Y
+                                 "D. lucipennis", #Y
+                                 "D. lutescens", #Y
+                                 "D. madeirensis", #Y
+                                 "D. malerkotliana", #Y
+                                 "D. mercatorum_1", #Y 7
+                                 "D. mercatorum_2*", #Y 39
+                                 "D. microlabis", #Y
+                                 "D. mimetica", #Y
+                                 "D. nebulosa", #Y
+                                 "D. obscura", #Y
+                                 "D. pallidosa", #Y
+                                 "D. paralutea", #y
+                                 "D. paulistorum", #y
+                                 "D. pbipectinata", #Y
+                                 "D. phaeopleura", #Y
+                                 "D. prostipennis", #Y
+                                 "D. prosaltans", #Y
+                                 "D. pseudoananassae", #Y
+                                 "D. pseudotakahashii", #Y
+                                 "D. subobscura", #Y
+                                 "D. teissieri", #Y
+                                 "D. tristis ??", ###
+                                 "D. tsukubaensis", #Y
+                                 "D. varians", #Y
+                                 "Z. africanus", #Y
+                                 "Z. gabonicus", #Y
+                                 "Z. indianus", #Y
+                                 "D. lowei") #Y
+quast_busco_results <- quast_busco_results[c(16,1:15)]
+colnames(quast_busco_results) <- c("species",
+                                   "name",
+                                   "# Contigs >=5kb",
+                                   "# Contigs >= 50kb",
+                                   "Total length (>=1kb)",
+                                   "Longest contig",
+                                   "\\%GC",
+                                   "N50",
+                                   "complete",
+                                   "complete single copy",
+                                   "duplicated",
+                                   "fragmented",
+                                   "missing",
+                                   "total",
+                                   "\\%S",
+                                   "NA")
+
+#write.csv(quast_busco_results,
+#          file = "~/DTN/Assemblies/quast_busco_results_species.csv")
+
+mean(quast_busco_results$N50[quast_busco_results$species!="D. lowei"])
+mean(quast_busco_results$complete[quast_busco_results$species!="D. lowei"])
+```
+
+## Table
+
+```{R, eval=F}
+library(dplyr)
+Table <- quast_busco_results %>% select(c("species",
+                                   "# Contigs >= 50kb",
+                                   "Total length (>=1kb)",
+                                   "Longest contig",
+                                   "\\%GC",
+                                   "N50"))
+
+Table <- knitr::kable(Table,
+                      "latex",
+                      caption = "\\textbf{Statisics of homemade assemblies}",
+                       escape=F)
+```
+
+## plot 
+
+```{R, eval=F}
+head(quast_busco_results[,10:13])
+
+quast_busco_results <- quast_busco_results %>% arrange(`complete single copy`)
+
+plot_df <- quast_busco_results  %>% tidyr::pivot_longer(names_to="BUSCO genes", cols=10:13) 
+
+plot_df$species <- factor(plot_df$species, levels=unique(plot_df$species))
+plot_df$`BUSCO genes` <- factor(plot_df$species, levels=unique(plot_df$species))
+
+library(ggplot2)
+ggplot(plot_df,
+       aes(x=species,
+           y=value,
+           fill=`BUSCO genes`))+geom_bar(stat="identity") +
+  theme_bw() +
+  theme(axis.text.x=element_text(angle = 90, hjust=0.9),
+        axis.title.y = element_blank(),
+        axis.title.x = element_blank(),
+        legend.position = "bottom")
+
+ggsave(filename = "~/gnd/Supplementary/tmp/Supplementary_fig1.png")
+```

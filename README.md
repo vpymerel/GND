@@ -1,6 +1,11 @@
 # GND
 
-You will find in this repository scripts and data corresponding to **Publication Title** (**Publication link**).
+You will find in this repository scripts and data corresponding to **Publication Title** (**Publication link**). Please find below a description of directories content.
+
+## Assemblies
+
+- quast_busco_results.csv: raw data regarding homemade assemblies statistics (N50, ...);
+- 
 
 ## Tree
 
