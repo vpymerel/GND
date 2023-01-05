@@ -5,9 +5,12 @@ You will find in this repository scripts and data corresponding to **Publication
 ## Assemblies
 
 - quast_busco_results.csv: raw data regarding homemade assemblies statistics (N50, ...);
-- 
+- Assemblies.Rmd: to produce a table with assembly statistics and a figure with BUSCO statistics.
 
 ## Tree
+
+- trees_comparison.R:  to compare the produced phylogeny with the one from [Suvorov et al., 2020](https://doi.org/10.1016/j.cub.2021.10.052).;
+- Tree.Rmd: some R code
 
 ## TEs
 
@@ -46,7 +49,9 @@ You will find in this repository scripts and data corresponding to **Publication
 
 ## Supplementary 
 
-- Supplementary_Table_S1:
+- Supplementary_tables.tex: to produce Suppelementary_tables.pdf;
+- Supplementary_tables.csv;
+- Supplementary_figure.odt.
 
 ## To Do
 

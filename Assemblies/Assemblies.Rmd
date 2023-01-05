@@ -2,9 +2,9 @@
 # Import data
 
 ```{R, eval=F}
-quast_busco_results <- read.delim("~/gnd/Assemblies/quast_busco_results.csv") 
-quast_busco_results$species <- c("D. affinis", #Y
-                                 "D. algonquin", #Y
+quast_busco_results <- read.csv("~/gnd/Assemblies/quast_busco_results.csv")
+quast_busco_results$species <- c("D. affinis", #Y #Y
+                                 "D. algonquin", #Y #
                                  "D. ambigua", #Y
                                  "D. athabasca", #Y
                                  "D. azteca", #Y
@@ -20,8 +20,8 @@ quast_busco_results$species <- c("D. affinis", #Y
                                  "D. lutescens", #Y
                                  "D. madeirensis", #Y
                                  "D. malerkotliana", #Y
-                                 "D. mercatorum_1", #Y 7
-                                 "D. mercatorum_2*", #Y 39
+                                 "D. mercatorum\\_1", #Y 7
+                                 "D. mercatorum\\_2", #Y 39
                                  "D. microlabis", #Y
                                  "D. mimetica", #Y
                                  "D. nebulosa", #Y
@@ -37,18 +37,22 @@ quast_busco_results$species <- c("D. affinis", #Y
                                  "D. pseudotakahashii", #Y
                                  "D. subobscura", #Y
                                  "D. teissieri", #Y
-                                 "D. tristis ??", ###
+                                 "D. tristis", ###
                                  "D. tsukubaensis", #Y
                                  "D. varians", #Y
                                  "Z. africanus", #Y
                                  "Z. gabonicus", #Y
                                  "Z. indianus", #Y
                                  "D. lowei") #Y
-quast_busco_results <- quast_busco_results[c(16,1:15)]
+
+#species as first column
+quast_busco_results <- quast_busco_results[c(17,1:16)]
+
+#Nicer names for columns
 colnames(quast_busco_results) <- c("species",
                                    "name",
-                                   "# Contigs >=5kb",
-                                   "# Contigs >= 50kb",
+                                   "Contigs >=5kb",
+                                   "Contigs >= 50kb",
                                    "Total length (>=1kb)",
                                    "Longest contig",
                                    "\\%GC",
@@ -60,13 +64,36 @@ colnames(quast_busco_results) <- c("species",
                                    "missing",
                                    "total",
                                    "\\%S",
-                                   "NA")
+                                   "Filtered_out",
+                                   "New")
 
 #write.csv(quast_busco_results,
 #          file = "~/DTN/Assemblies/quast_busco_results_species.csv")
 
-mean(quast_busco_results$N50[quast_busco_results$species!="D. lowei"])
-mean(quast_busco_results$complete[quast_busco_results$species!="D. lowei"])
+
+```
+
+## Quick stats
+
+```{R, eval=F}
+#N50
+mean(quast_busco_results$N50[quast_busco_results$species!="D. lowei" &
+                               quast_busco_results$species!="D. tristis" &
+                               quast_busco_results$species!="D. algonquin"])
+#min
+min(quast_busco_results$N50[quast_busco_results$species!="D. lowei" &
+                               quast_busco_results$species!="D. tristis" &
+                               quast_busco_results$species!="D. algonquin"])
+
+#max
+max(quast_busco_results$N50[quast_busco_results$species!="D. lowei" &
+                               quast_busco_results$species!="D. tristis" &
+                               quast_busco_results$species!="D. algonquin"])
+
+#BUSCO
+mean(quast_busco_results$complete[quast_busco_results$species!="D. lowei" &
+                               quast_busco_results$species!="D. tristis" &
+                               quast_busco_results$species!="D. algonquin"])
 ```
 
 ## Table
@@ -74,16 +101,23 @@ mean(quast_busco_results$complete[quast_busco_results$species!="D. lowei"])
 ```{R, eval=F}
 library(dplyr)
 Table <- quast_busco_results %>% select(c("species",
-                                   "# Contigs >= 50kb",
+                                   "Contigs >= 50kb", #"#" will not be considered in the latex table
                                    "Total length (>=1kb)",
                                    "Longest contig",
                                    "\\%GC",
                                    "N50"))
+library(kableExtra)
 
+Table$species <- paste("\\textit{",Table$species,"}",sep="")
+
+#Italic names
+colnames(Table)[1] <- ""
 Table <- knitr::kable(Table,
                       "latex",
-                      caption = "\\textbf{Statisics of homemade assemblies}",
-                       escape=F)
+                      caption = "\\textbf{Statistics of homemade assemblies}. Note that due to poor quality \\textit{D. algonquin}, \\textit{D. lowei} and \\textit{D. tristis} assemblies were not further considered.",
+                       escape=F) %>%
+  kable_styling(position = "center")
+
 ```
 
 ## plot 
@@ -95,8 +129,10 @@ quast_busco_results <- quast_busco_results %>% arrange(`complete single copy`)
 
 plot_df <- quast_busco_results  %>% tidyr::pivot_longer(names_to="BUSCO genes", cols=10:13) 
 
+#Percentage are better
+plot_df$value <- plot_df$value/3285*100
 plot_df$species <- factor(plot_df$species, levels=unique(plot_df$species))
-plot_df$`BUSCO genes` <- factor(plot_df$species, levels=unique(plot_df$species))
+plot_df$`BUSCO genes` <- factor(plot_df$`BUSCO genes`, levels=unique(plot_df$`BUSCO genes`))
 
 library(ggplot2)
 ggplot(plot_df,
@@ -104,10 +140,13 @@ ggplot(plot_df,
            y=value,
            fill=`BUSCO genes`))+geom_bar(stat="identity") +
   theme_bw() +
-  theme(axis.text.x=element_text(angle = 90, hjust=0.9),
-        axis.title.y = element_blank(),
+  theme(axis.title.y = element_blank(),
         axis.title.x = element_blank(),
-        legend.position = "bottom")
+        legend.position = "bottom") +
+  scale_y_continuous(labels = function(x) paste0(x, "%")) + coord_flip()
 
-ggsave(filename = "~/gnd/Supplementary/tmp/Supplementary_fig1.png")
+ggsave(filename = "~/gnd/Supplementary/tmp/Supplementary_fig1.png",
+       units = "cm",
+       width = 18,
+       height = 24)
 ```
