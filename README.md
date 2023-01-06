@@ -9,10 +9,13 @@ You will find in this repository scripts and data corresponding to **Publication
 
 ## Tree
 
+- root_droso_tree_MF: the rooted tree;
 - trees_comparison.R:  to compare the produced phylogeny with the one from [Suvorov et al., 2020](https://doi.org/10.1016/j.cub.2021.10.052).;
-- Tree.Rmd: some R code
+- Tree.Rmd: some R code to display the tree together with Genome size and TE content.
 
 ## TEs
+
+- dnaPipeTE.Rmd: to estimate TE content, from reads processing to actual estimation using dnaPipeTE.
 
 ## Phylogenetic inertia
 
@@ -45,7 +48,9 @@ You will find in this repository scripts and data corresponding to **Publication
 
 - Install.md;
 - Traits.Rmd: to build coevol traits file;
-- Run.md: to calculte dN/dS of concatenates.
+- Run.md: to calculte dN/dS of concatenates;
+- Traces.md: to check convergence;
+
 
 ## Supplementary 
 

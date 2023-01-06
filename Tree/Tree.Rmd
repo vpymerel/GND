@@ -1,0 +1,269 @@
+
+```{r setup, include=FALSE}
+library(ggtree)
+library(ggstance)
+library(ggplot2)
+library(grid)
+library(gtable)
+library(wesanderson)
+library(dplyr)
+
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Tree
+
+```{r, eval=T}
+tree <- read.tree("/home/vincent/gnd/Tree/root_droso_tree_MF")
+
+###Add correct tiplab###
+Sorter=tree$tip.label
+
+Samples <- read.delim("~/gnd/Supplementary/Samples.csv")
+head(Samples)
+
+Samples <- Samples[match(Sorter, Samples$id), ] 
+
+tree$tip.label=as.character(Samples$Tip)
+######
+
+###1st Plot###
+plot <- ggtree(tree) + 
+  geom_tiplab(aes(label=paste0('~italic(', label, ')')),
+              parse=TRUE,
+              align=TRUE,
+              size=3)  +
+  geom_nodelab(aes(label=ifelse(label!=100,label,"")),
+               size=2.5,
+               hjust=0.5)
+plot
+######
+
+###Add phylo group###
+plot <- plot  + 
+  geom_cladelabel(node=132,
+                  label="melanogaster",
+                  align=TRUE,
+                  offset=0.092,
+                  fontsize=3,
+                  angle=270,
+                  hjust='center',
+                  offset.text=.003) +
+    geom_cladelabel(node=112,
+                  label="obscura",
+                  align=TRUE,
+                  offset=0.092,
+                  fontsize=3,
+                  angle=270,
+                  hjust='center',
+                  offset.text=.003) +
+      geom_cladelabel(node=108,
+                  label="willistoni",
+                  align=TRUE,
+                  offset=0.092,
+                  fontsize=3,
+                  angle=270,
+                  hjust='center',
+                  offset.text=.003) +
+      geom_cladelabel(node=24,
+                  label="saltans",
+                  align=TRUE,
+                  offset=0.102,
+                  fontsize=3,
+                  #angle=270,
+                  hjust='right',
+                  offset.text=.003) +
+        geom_cladelabel(node=90,
+                  label="repleta",
+                  align=TRUE,
+                  offset=0.092,
+                  fontsize=3,
+                  angle=270,
+                  hjust='center',
+                  offset.text=.003) +
+        geom_cladelabel(node=95,
+                  label="virilis",
+                  align=TRUE,
+                  offset=0.092,
+                  fontsize=3,
+                  angle=270,
+                  hjust='center',
+                  offset.text=.003) +
+  geom_cladelabel(node=100,
+                  label="melanica",
+                  align=TRUE,
+                  offset=0.102,
+                  fontsize=3,
+                  angle=270,
+                  hjust='center',
+                  offset.text=.003) +
+  geom_cladelabel(node=12,
+                  label="robusta",
+                  align=TRUE,
+                  offset=0.092,
+                  fontsize=3,
+                  #angle=270,
+                  hjust='right',
+                  offset.text=.003) +
+  geom_cladelabel(node=17,
+                  label="grim.",
+                  align=TRUE,
+                  offset=0.102,
+                  fontsize=3,
+                  #angle=270,
+                  hjust='right',
+                  offset.text=.003) +
+  geom_cladelabel(node=103,
+                  label="armatus",
+                  align=TRUE,
+                  offset=0.092,
+                  fontsize=3,
+                  angle=270,
+                  hjust='center',
+                  offset.text=.003) +
+  geom_cladelabel(node=105,
+                  label="immigrans",
+                  align=TRUE,
+                  offset=0.102,
+                  fontsize=3,
+                  angle=270,
+                  hjust='center',
+                  offset.text=.003) #+
+  #geom_cladelabel(node=1,
+  #                label="victoria",
+  #                align=TRUE,
+  #                offset=0.092,
+  #                fontsize=3,
+  #                angle=270,
+  #                hjust='center',
+  #                offset.text=.003)
+
+plot
+######
+```
+
+
+## Add GS
+
+```{r, eval=T}
+
+GS <- read.delim("~/gnd/Supplementary/GS.csv")
+
+df <- full_join(Samples,
+                GS,
+                by="id") %>% select(Tip, Genome.size..Mb.)
+
+colnames(df) <- c("id","GS")
+
+#values
+plot2 <- facet_plot(plot,
+           panel = 'Genome Size',
+           data = df,
+           geom = geom_point,
+           mapping = aes(x = GS),
+           stat='identity') + scale_fill_brewer(palette="Set3")
+
+#dashed line
+d=data.frame(y=1:82, .panel='Genome Size')
+plot3 <- plot2 + geom_hline(data=d, aes(yintercept=y),linetype = "dashed") + scale_y_continuous()
+
+#axis
+d=data.frame(y=-1, .panel='Genome Size')
+plot4 <- plot3 + geom_hline(data=d, aes(yintercept=y))
+```
+
+## Add dnaPipeTE Results
+
+```{r, eval=T}
+#Importing Table
+dnaPipeTE <- read.csv("/home/vincent/DTN/dnaPipeTE/results.synth.txt", sep="")
+head(dnaPipeTE)
+
+###30/12/21###
+#In Mb
+dnaPipeTE$Nbp <- dnaPipeTE$Nbp/1e6
+
+#Median of replicates
+dnaPipeTE <- dnaPipeTE %>%
+  dplyr::group_by(Id,Categ) %>%
+  dplyr::summarize(Nbp=median(Nbp))
+
+#Selecting TEs 
+dnaPipeTE <- dnaPipeTE %>%
+  tidyr::pivot_wider(id_cols = c(Id,Categ),
+                     names_from =  Categ,
+                     values_from = Nbp)
+
+dnaPipeTE <- dnaPipeTE %>%
+  dplyr::select(c(DNA, Helitron, LINE, LTR, SINE))
+
+dnaPipeTE <- dnaPipeTE %>% tidyr::pivot_longer(2:6,
+                           names_to = "Categ",
+                           values_to = "Nbp")
+
+#######
+colnames(dnaPipeTE)[1]<-"id"
+df <- dplyr::full_join(Samples, dnaPipeTE,by="id")
+#head(df)
+#df <- df %>% tidyr::complete(Id, Categ)
+
+df <- data.frame(id=df$Tip,
+                 Categ=df$Categ,
+                 Nbp=df$Nbp) #/1e6 ###30/12/21###
+
+
+
+plot5 <- facet_plot(plot4,
+           panel = 'TE Content',
+           data = df, 
+           geom = geom_barh, 
+           mapping = aes(x = Nbp,
+                         fill = Categ),
+           stat='identity') + scale_fill_brewer(palette="Set3") 
+
+d=data.frame(y=-1, .panel='TE Content')
+plot6 <- plot5 + geom_hline(data=d, aes(yintercept=y)) + scale_y_continuous()
+```
+
+
+
+## Some formatting
+
+```{r, eval=T}
+plot7 <- plot6 +
+  geom_treescale(y=-1) + 
+  xlim_tree(0.1) +
+  theme_tree2()+
+  theme(strip.background = element_blank(),
+        strip.text = element_text(size = 13, color="black", vjust=-1),
+        strip.placement = "bottom",
+        legend.position = c(0.91, 0.5),
+        legend.margin = margin(0.1, 0.1, 0.1, 0.1),
+        legend.box.background = element_rect(),
+        legend.title = element_blank(),
+        axis.line.x = element_blank(),
+        axis.text.x = element_text(angle = 45), #axis.ticks.x = element_blank()
+        )+ theme(plot.margin = unit(c(0, 0, 0, 0), "null"),
+                                               panel.border = element_blank())
+plot7
+plot8 <- facet_labeller(plot7, c(Tree = ""))
+
+
+
+gt = ggplot_gtable(ggplot_build(plot8))
+gtable_show_layout(gt)
+gt$layout$l[grep('panel-2', gt$layout$name)]
+gt$widths[7] = 0.3*gt$widths[7] #GS*0.5
+gt$widths[5] = 2*gt$widths[5] #Tree*3
+gt$widths[9] = 1.25*gt$widths[9] #Tree*1.25
+
+gt$heights[6]=gt$heights[6]*0.1
+gt$heights[9]=gt$heights[9]*0.75
+
+
+grid.draw(gt)
+ggsave("~/gnd/Figures/Figure1_Raw.svg", width=23, height=29, units="cm", plot=gt)
+
+#You will have to change: Title position and other things
+
+```

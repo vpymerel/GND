@@ -1,0 +1,83 @@
+genera	species	id	NGS data	Genome size source	Tip
+Drosophila	affinis	affinis	This study	AGSbd	D. ~affinis
+Drosophila	albomicans	Dalbomicans	Public	 Hjelmen et al. 2019*	D. ~albomicans
+Drosophila	ambigua	ambigua	This study	AGSbd	D. ~ambigua
+Drosophila	americana	Damericana	Public	AGSbd	D. ~americana
+Drosophila	ananassae	dana	Public	AGSbd	D. ~ananassae
+Drosophila	arizonae	Darizonae	Public	 Hjelmen et al. 2019*	D. ~arizonae
+Drosophila	athabasca	athabasca	Public	This study	D. ~athabasca_pu
+Drosophila	athabasca	Dathabasca	This study	This study	D. ~athabasca_pr
+Drosophila	azteca	azteca	This study	This study	D. ~azteca
+Drosophila	barbarae	barbarae	This study	AGSbd	D. ~barbarae
+Drosophila	biarmipes	Dbiarmipes	Public	AGSbd	D. ~biarmipes
+Drosophila	bifasciata	bifasciata	This study	AGSbd	D. ~bifasciata
+Drosophila	bipectinata	Dbipectinata	Public	AGSbd	D. ~bipectinata
+Drosophila	busckii	Dbusckii	Public	AGSbd	D. ~busckii
+Drosophila	diplacantha	diplacantha	This study	AGSbd	D. ~diplacantha
+Drosophila	elegans	Delegans	Public	AGSbd	D. ~elegans
+Drosophila	equinoxialis	equinoxialis	This study	AGSbd	D. ~equinoxialis
+Drosophila	ercepeae	ercepae	This study	AGSbd	D. ~ercepae
+Drosophila	erecta	dere	Public	AGSbd	D. ~erecta
+Drosophila	eugracilis	Deugracilis	Public	AGSbd	D. ~eugracilis
+Drosophila	ficusphila	Dficusphila	Public	AGSbd	D. ~ficusphila
+Drosophila	grimshawi	dgri	Public	AGSbd	D. ~grimshawi
+Drosophila	guanche	guanche	This study	This study	D. ~guanche_pr
+Drosophila	guanche	Dguanche	Public	This study	D. ~guanche_pu
+Drosophila	helvetica	helvetica	This study	NA	D. ~helvetica
+Drosophila	hydei	Dhydei	Public	AGSbd	D. ~hydei
+Drosophila	imaii	imaii	This study	This study	D. ~imaii
+Drosophila	kikkawai	Dkikkawai	Public	AGSbd	D. ~kikkawai
+Drosophila	lacertosa	Dlacertosa	Public	 Hjelmen et al. 2019*	D. ~lacertosa
+Drosophila	lowei	Dlowei	Public	NA	D. ~lowei
+Drosophila	lucipennis	lucipennis	This study	AGSbd	D. ~lucipennis
+Drosophila	lutescens	lutescens	This study	This study	D. ~lutescens
+Drosophila	madeirensis	madeirensis	This study	NA	D. ~madeirensis
+Drosophila	malerkotliana	malerkotliana	This study	AGSbd	D. ~malerkotliana
+Drosophila	mauritiana	Dmauritiana	Public	AGSbd	D. ~mauritiana
+Drosophila	melanica	Dmelanica	Public	 Hjelmen et al. 2019*	D. ~melanica
+Drosophila	melanogaster	BDGP6	Public	AGSbd	D. ~melanogaster
+Drosophila	mercatorum	me07rcatorum	This study	This study	D. ~mercatorum_1
+Drosophila	mercatorum	me39rcatorum	This study	This study	D. ~mercatorum_2
+Drosophila	microlabis	microlabis	This study	This study	D. ~microlabis
+Drosophila	micromelanica	Dmicromelanica	Public	 Hjelmen et al. 2019*	D. ~micromelanica
+Drosophila	mimetica	mimetica	This study	This study	D. ~mimetica
+Drosophila	miranda	Dmiranda	Public	AGSbd	D. ~miranda
+Drosophila	mojavensis	dmoj	Public	AGSbd	D. ~mojavensis
+Drosophila	montana	Dmontana	Public	 Hjelmen et al. 2019*	D. ~montana
+Drosophila	nasuta	Dnasuta	Public	 Hjelmen et al. 2019*	D. ~nasuta
+Drosophila	navojoa	Dnavojoa	Public	 Hjelmen et al. 2019*	D. ~navojoa
+Drosophila	nebulosa	nebulosa	This study	AGSbd	D. ~nebulosa
+Drosophila	nigromelanica	Dnigromelanica	Public	NA	D. ~nigromelanica
+Drosophila	novamexicana	Dnovamexicana	Public	AGSbd	D. ~novamexicana
+Drosophila	obscura	obscura	This study	This study	D. ~obscura_pr
+Drosophila	obscura	Dobscura	Public	This study	D. ~obscura_pu
+Drosophila	pallidosa	pallidosa	This study	AGSbd	D. ~pallidosa
+Drosophila	parabipectinata	pbipectinata	This study	AGSbd	D. ~parabipectinata
+Drosophila	paralutea	paralutea	This study	AGSbd	D. ~paralutea
+Drosophila	paulistorum	paulistrom	This study	This study	D. ~paulistorum
+Drosophila	persimilis	dper	Public	AGSbd	D. ~persimilis
+Drosophila	phaeopleura	phaeopleura	This study	AGSbd	D. ~phaeopleura
+Drosophila	prosaltans	psaltans	This study	This study	D. ~prosaltans
+Drosophila	prostipennis	prostipennis	This study	AGSbd	D. ~prostipennis
+Drosophila	pseudoananassae	pseudoananassae	This study	AGSbd	D. ~pseudoananassae
+Drosophila	pseudoobscura	Dpse	Public	AGSbd	D. ~pseudoobscura
+Drosophila	pseudotakahashii	pstakahashi	This study	AGSbd	D. ~pseudotakahashii
+Drosophila	rhopaloa	Drhopaloa	Public	NA	D. ~rhopaloa
+Drosophila	robusta	Drobusta	Public	 Hjelmen et al. 2019*	D. ~robusta
+Drosophila	sechellia	dsec	Public	AGSbd	D. ~sechellia
+Drosophila	serrata	Dserrata	Public	AGSbd	D. ~serrata
+Drosophila	simulans	dsim	Public	AGSbd	D. ~simulans
+Drosophila	subobscura	subobscura	This study	This study	D. ~subobscura_pr
+Drosophila	subobscura	Dsubobscura	Public	This study	D. ~subobscura_pu
+Drosophila	suzukii	Dsuzukii	Public	This study	D. ~suzukii
+Drosophila	takahashii	Dtakahashii	Public	AGSbd	D. ~takahashii
+Drosophila	teissieri	teissieri	This study	This study	D. ~teissieri
+Drosophila	tsukubaensis	tsukubaensis	This study	This study	D. ~tsukubaensis
+Drosophila	varians	varians	This study	AGSbd	D. ~varians
+Drosophila	virilis	dvir	Public	AGSbd	D. ~virilis
+Drosophila	willistoni	dwil	Public	AGSbd	D. ~willistoni
+Drosophila	yakuba	dyak	Public	AGSbd	D. ~yakuba
+Scaptodrosophila	lebanonensis	Slebanonensis	Public	AGSbd	S. ~lebanonensis
+Zaprionus	africanus	Zafricanus	This study	This study	Z. ~africanus
+Zaprionus	gabonicus	Zgabonicus	This study	This study	Z. ~gabonicus
+Zaprionus	indianus	Zindianus	This study	This study	Z. ~indianus
