@@ -1,0 +1,118 @@
+
+```{bash, eval=F}
+
+cd /beegfs/data/merel/GND/dN_dS/
+
+for Aln in `seq 0 1 29`
+do
+  
+  Aln="Aln"$Aln
+  echo $Aln
+
+  Rscript coevol_mapNH/Cor.R $Aln
+  
+  #Adding min, max, median GC3
+  GC3=`Rscript /beegfs/data/merel/GND/Alignments/get_GC3.R /beegfs/data/merel/GND/Alignments/$Aln.txt`
+  Min=`echo $GC3 | cut -f 2 -d ' '`
+  Max=`echo $GC3 | cut -f 3 -d ' '`
+  Median=`echo $GC3 | cut -f 4 -d ' '`
+
+  awk -v Min=$Min \
+  -v Max=$Max \
+  -v Median=$Median '{print $0" "Min" "Max" "Median}'  coevol_mapNH/$Aln.csv > tmp && mv tmp coevol_mapNH/$Aln.csv
+  
+done
+
+cat coevol_mapNH/Aln*.csv > coevol_mapNH/Cor.csv
+rm coevol_mapNH/Aln*.csv
+
+scp merel@pbil-gates.univ-lyon1.fr:/beegfs/data/merel/GND/dN_dS/coevol_mapNH/Cor.csv ~/gnd/dN_dS/coevol_mapNH/
+grep -v Aln30 ~/gnd/dN_dS/coevol/df.csv > tmp && mv tmp ~/gnd/dN_dS/coevol/df.csv
+
+```
+
+# R import data
+
+```{r, eval=F}
+Cor <- read.table("~/gnd/dN_dS/coevol_mapNH/Cor.csv", quote="\"", comment.char="")
+head(Cor)
+colnames(Cor) <- c("node",
+                   "omega_mapNH",
+                   "omega_coevol",
+                   "branch.length",
+                   "Aln",
+                   "min_GC3",
+                   "max_GC3",
+                   "median_GC3")
+```
+
+
+# Plots
+
+```{r, eval=F}
+
+myPalette <- colorRampPalette(rev(hcl.colors(n = 10, palette = "Berlin")))
+
+pvalues = c()
+for (i in seq(1, length(unique(Cor$Aln)), 6)){
+  
+  Aln=paste("Aln",i,collapse="",sep="")
+
+  
+  plot <- ggplot(Cor[Cor$Aln %in% levels(Cor$Aln)[i:(i+5)],],
+       aes(x=omega_mapNH,
+           y=omega_coevol,
+           color=branch.length))+
+  geom_point()+
+    geom_abline(slope=1,intercept=0,size=1, linetype = "dashed")+
+    scale_colour_gradientn(colours = myPalette(100))+
+    geom_smooth(method = "lm", se = FALSE, color="black", size=1)+
+    stat_regline_equation(aes(label =  paste(..eq.label.., ..adj.rr.label.., sep = "~~~~")))+
+    facet_wrap(.~Aln, scales="free", ncol=2, nrow=3)+
+  theme_bw()
+  
+  ggsave(plot = plot,
+         filename = paste0("~/gnd/dN_dS/coevol_mapNH/Cor_",i,".pdf"),
+         width = 21,
+         height = 29.7,
+         units = "cm")
+  
+}
+```
+
+```{bash, eval=F}
+pdfunite ~/gnd/dN_dS/coevol_mapNH/Cor_*pdf  ~/gnd/dN_dS/coevol_mapNH/Cor.pdf
+rm ~/gnd/dN_dS/coevol_mapNH/Cor_*pdf 
+
+```
+
+# pvalues and R2
+
+```{r, eval=F}
+
+df = data.frame(
+  Aln=character(),
+  pvalue=numeric(),
+  R2=numeric()
+)
+
+for (Aln in unique(Cor$Aln)){
+  
+  Lm <- lm(Cor[Cor$Aln==Aln,"omega_mapNH"] ~ Cor[Cor$Aln==Aln,"omega_coevol"])
+  Summary <- summary(Lm)
+  
+  R2 <- Summary$r.squared
+}
+summary(pvalues<0.05)
+summary(p.adjust(pvalues, method="hochberg")<0.05)
+
+ggplot(Cor[Cor$Aln=="Aln14",],
+       aes(x=omega_mapNH,
+           y=omega_coevol,
+           color=branch.length))+
+  geom_point()+scale_colour_gradientn(colours = myPalette(100))+
+  theme_bw()
+
+```
+
+

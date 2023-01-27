@@ -13,8 +13,6 @@ do
   
     ~/coevol/data/readcoevol  +mean -x 300 1 1300 $Aln.$X > $Aln.$X.log
     
-
-    
   done
 done
 
@@ -43,6 +41,7 @@ do
   cut -f 1,4,6,7,8,9,10,11 pp.csv | awk '{if ($1==".\\." || $1=="omega" || $1=="Dev" || $1=="ENCprime" || $1=="SCUO") print $0}' > tmp && mv tmp pp.csv
   cut -f 1,4,6,7,8,9,10,11 cc.csv | awk '{if ($1==".\\." || $1=="omega" || $1=="Dev" || $1=="ENCprime" || $1=="SCUO") print $0}' > tmp && mv tmp cc.csv
 
+  #proxy categ pp cc Aln 
   Rscript ../Format.R $Aln
   
   #Adding min, max, median GC3
@@ -76,6 +75,12 @@ df <- df %>%
   ifelse(pp>0.95,"pp>0.95","ns")))
 library(ggplot2)
 ggplot(df[df$concat!="Random",], aes(x=median_GC3, y=cc, color=significant)) + 
+  geom_point() + 
+  facet_grid(proxy~categ) +
+  theme_bw()
+  
+  
+ggplot(df[df$concat=="Random",], aes(x=median_GC3, y=cc, color=significant)) + 
   geom_point() + 
   facet_grid(proxy~categ) +
   theme_bw()

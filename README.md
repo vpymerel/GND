@@ -24,12 +24,14 @@ You will find in this repository scripts and data corresponding to **Publication
 - Traits.Rmd: to build ancov traits file;
 - Run.md: to run ancov;
 - Traces.md: to check convergence;
+- Analyses.md: just a bit of formatting of ancov output before giving it a look;
 - PGLS: a PGLS analysis to compare.
 
 ## Alignments
 
 - Preprocessing.md: to produce upper case multifasta (upper case, dealing with "!" encoded frameshifts, ...);
-- Concatenating.R & Concatenated.md: to create concatenate according to %GC3.
+- Concatenating.R & Concatenated.md: to create concatenate according to %GC3;
+- get_GC3.R: to get mininmum, maximum and median %GC3 of a concatenate  from list of genes.
 
 ## GC_CU (GC and Codon Usage)
 
@@ -42,7 +44,8 @@ You will find in this repository scripts and data corresponding to **Publication
 - Install.md;
 - Test.md;
 - base.bpp and map_dNdS.bpp biopp parameter files;
-- Run.md: to calculte dN/dS of concatenates.
+- Run.md: to calculte dN/dS of concatenates;
+- Analyses.md
 
 ### coevol
 
@@ -50,6 +53,9 @@ You will find in this repository scripts and data corresponding to **Publication
 - Traits.Rmd: to build coevol traits file;
 - Run.md: to calculte dN/dS of concatenates;
 - Traces.md: to check convergence;
+- Analyses.md: a bit of formatting code, then plot code. 
+
+### mapNH - coevol correlation
 
 
 ## Supplementary 
@@ -61,3 +67,5 @@ You will find in this repository scripts and data corresponding to **Publication
 ## To Do
 
 - Add **Publication Title** and **Publication link**;
+- read this: Relaxation of purifying selection suggests low effective population size in eusocial Hymenoptera and solitary pollinating bees;
+- root in the correlation ?

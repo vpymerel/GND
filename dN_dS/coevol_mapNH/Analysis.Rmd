@@ -1,0 +1,43 @@
+
+```{r, eval=F}
+coevol <- read.table("~/gnd/dN_dS/coevol/df.csv", quote="\"", comment.char="")
+colnames(coevol) <- c("proxy","categ","pp","cc","Aln","min_GC3","max_GC3","median_GC3")
+
+mapNH <- read.table("~/gnd/dN_dS/mapNH/df.csv", quote="\"", comment.char="")
+colnames(mapNH) <- c("proxy","categ","p.adj","slope","Aln")
+
+library(dplyr)
+df <- full_join(coevol,
+                mapNH,
+                by= c("proxy","categ","Aln"))
+
+#No Random (i.e. Aln > )
+Random_list <- paste("Aln",20:29,collapse=NULL, sep="")
+
+df <- df %>%
+  mutate(concat=ifelse(grepl(paste(Random_list,collapse='|'),Aln),"Random","NotRandom")) %>%
+  mutate(pp_significant=ifelse(pp>0.975,"pp>0.975",
+  ifelse(pp>0.95,"pp>0.95","ns"))) %>%
+  mutate(p.adj_significant=ifelse(p.adj<0.05,"p.adj<0.05","ns"))
+
+
+
+library(ggplot2)
+ggplot(df[df$concat!="Random",],
+       aes(x=median_GC3, y=cc, color=pp_significant, shape=p.adj_significant)) + 
+  geom_point()+
+  facet_grid(proxy~categ) +
+  theme_bw()
+  
+  
+ggplot(df[df$concat=="Random",], aes(x="median_GC3", y=cc)) + 
+  geom_point(position=position_jitterdodge(jitter.width=2, dodge.width = 0),
+             aes(color=pp_significant)) + geom_boxplot() +
+  facet_grid(proxy~categ) +
+  theme_bw()
+
+plot(df$pp[df$proxy=="omega"],df$p.adj[df$proxy=="omega"])
+cor.test(df$pp[df$proxy=="omega"],df$p.adj[df$proxy=="omega"])
+lm <-lm(df$pp[df$proxy=="omega"] ~df$p.adj[df$proxy=="omega"])
+summary(lm)
+```
