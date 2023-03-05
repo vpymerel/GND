@@ -119,7 +119,7 @@ do
   
     echo '#!/bin/bash
 #SBATCH --job-name='"${Aln::-3}"'.'"$X"'
-#SBATCH --time=72:00:00
+#SBATCH --time=84:00:00
 #SBATCH --nodes=1
 #SBATCH --ntasks-per-node=1
 #SBATCH --mem=30gb
@@ -128,14 +128,15 @@ do
   
 cd /beegfs/data/merel/GND/dN_dS/coevol/Runs/'"${Aln::-3}"'
 
-echo 0 > '"${Aln::-3}"'.'"$X"'.run
+echo "###Launch again###"
+wc -l '"${Aln::-3}"'.'"$X"'.trace
+/beegfs/home/merel/coevol/data/coevol '"${Aln::-3}"'.'"$X"' &>> coevol.'"$X"'.log &
 
-/beegfs/home/merel/coevol/data/coevol \
--d '"${Aln::-3}"'.phy \
--t Tree.nwk \
--c /beegfs/data/merel/GND/dN_dS/coevol/'"${Aln::-3}"'_Traits.csv \
--dsom \
-'"${Aln::-3}"'.'"$X"'
+echo "###Stop after 72 hour###"
+sleep 72h
+echo 0 > '"${Aln::-3}"'.'"$X"'.run
+wc -l '"${Aln::-3}"'.'"$X"'.trace
+
 ' > /beegfs/data/merel/GND/dN_dS/coevol/Runs/${Aln::-3}/${Aln::-3}.$X.2.sh
   
   sbatch /beegfs/data/merel/GND/dN_dS/coevol/Runs/${Aln::-3}/${Aln::-3}.$X.2.sh
