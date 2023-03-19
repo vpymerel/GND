@@ -143,4 +143,11 @@ wc -l '"${Aln::-3}"'.'"$X"'.trace
   done
 done
 
+#Three jobs ""(launch failed requeued held)" (Aln3.1, Aln3.2 Aln30.1)
+scancel -u merel
+sbatch /beegfs/data/merel/GND/dN_dS/coevol/Runs/Aln3/Aln3.1.2.sh
+sbatch /beegfs/data/merel/GND/dN_dS/coevol/Runs/Aln3/Aln3.2.2.sh
+sbatch /beegfs/data/merel/GND/dN_dS/coevol/Runs/Aln30/Aln30.1.2.sh
+
+"
 ```
