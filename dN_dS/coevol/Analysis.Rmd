@@ -62,6 +62,7 @@ scp merel@pbil-gates.univ-lyon1.fr:/beegfs/data/merel/GND/dN_dS/coevol/Runs/df.c
 grep -v Aln30 ~/gnd/dN_dS/coevol/df.csv > tmp && mv tmp ~/gnd/dN_dS/coevol/df.csv
 
 ```{r, eval=F}
+library(dplyr)
 df <- read.table("~/gnd/dN_dS/coevol/df.csv", quote="\"", comment.char="")
 colnames(df) <- c("proxy","categ","pp","cc","Aln","min_GC3","max_GC3","median_GC3")
 
@@ -73,87 +74,100 @@ df <- df %>%
   mutate(
   concat=ifelse(
     grepl(paste(Random_list,collapse='|'),Aln),"Random","NotRandom")) %>%
-  mutate(significant=ifelse(pp>0.975,"pp>0.975",
-  ifelse(pp>0.95,"pp>0.95","ns")))
+  mutate(significant=ifelse(pp>0.975 | pp<0.025,"pp>0.975\nor\npp<0.025",
+  ifelse(pp>0.95  | pp<0.5, "pp>0.95\nor\npp<0.05","ns")))
 library(ggplot2)
 
-df$significant <- as.factor(df$significant)
-NotRandom_omega <- ggplot(df[df$concat!="Random" & df$categ=="Helitron" & df$proxy=="omega",],
+CATEG = "GS"
+
+MIN=min(df$cc[df$categ==CATEG ])
+MAX=max(df$cc[df$categ==CATEG ])
+RANGE=MAX-MIN
+MIN_X=MIN-RANGE/100
+MAX_X=MAX+RANGE/100
+
+NotRandom_omega <- ggplot(df[df$concat!="Random" & df$categ==CATEG & df$proxy=="omega",],
   aes(x=median_GC3,
       y=cc,
       color=significant)) + 
-  geom_point() +
+  geom_point(size=1) +
   theme_bw()+
   theme(legend.position="none",
+        text=element_text(size=9),
         legend.title=element_blank(),
         axis.title.x=element_blank(),
         axis.title.y=element_blank())+
-  ylim(c(-0.2,0.6))+
+  ylim(c(MIN_X,MAX_X))+
   scale_colour_manual(values=c("darkgray","#ff5252ff","#810000ff"))
 #legend.position="none",
-Random_omega <- ggplot(df[df$concat=="Random" & df$categ=="Helitron" & df$proxy=="omega",],           aes(x=proxy,
+Random_omega <- ggplot(df[df$concat=="Random" & df$categ==CATEG & df$proxy=="omega",],           aes(x=proxy,
       y=cc)) + 
   geom_boxplot()+
-  geom_jitter(aes(color=significant)) +
+  geom_jitter(aes(color=significant), size=1) +
   theme_bw()+
   theme(legend.position="none",
+        text=element_text(size=9),
         axis.title.y=element_blank(),
         axis.text.y=element_blank(),
         axis.title.x=element_blank())+
-  ylim(c(-0.2,0.6))+
+  ylim(c(MIN_X,MAX_X))+
   scale_colour_manual(values=c("darkgray","#ff5252ff","#810000ff"))+
   scale_x_discrete(labels=c("Random"))
 
-NotRandom_ENC<- ggplot(df[df$concat!="Random" & df$categ=="Helitron" & df$proxy=="ENCprime",],
+NotRandom_ENC<- ggplot(df[df$concat!="Random" & df$categ==CATEG & df$proxy=="ENCprime",],
   aes(x=median_GC3,
       y=cc,
       color=significant)) + 
-  geom_point() +
+  geom_point(size=1) +
   theme_bw()+
   theme(legend.position="none",
+        text=element_text(size=9),
         axis.title.x=element_blank(),
         axis.title.y=element_blank())+
-  ylim(c(-0.2,0.6))+
+  ylim(c(MIN_X,MAX_X))+
   scale_colour_manual(values=c("darkgray","#ff5252ff","#810000ff"))
 
-Random_ENC <- ggplot(df[df$concat=="Random" & df$categ=="Helitron" & df$proxy=="ENCprime",],
+Random_ENC <- ggplot(df[df$concat=="Random" & df$categ==CATEG & df$proxy=="ENCprime",],
 aes(x=proxy,
       y=cc)) + 
   geom_boxplot()+
-  geom_jitter(aes(color=significant)) +
+  geom_jitter(aes(color=significant), size=1) +
   theme_bw()+
   theme(legend.position="none",
+        text=element_text(size=9),
         legend.title=element_blank(),
         axis.title.y=element_blank(),
         axis.text.y=element_blank(),
         axis.title.x=element_blank())+
-  ylim(c(-0.2,0.6))+
+  ylim(c(MIN_X,MAX_X))+
   scale_colour_manual(values=c("darkgray","#ff5252ff","#810000ff"))+
   scale_x_discrete(labels=c("Random"))
 
-NotRandom_SCUO<- ggplot(df[df$concat!="Random" & df$categ=="Helitron" & df$proxy=="SCUO",],
+NotRandom_SCUO<- ggplot(df[df$concat!="Random" & df$categ==CATEG & df$proxy=="SCUO",],
   aes(x=median_GC3,
       y=cc,
       color=significant)) + 
-  geom_point() +
+  geom_point(size=1) +
   theme_bw()+
   theme(legend.position="none",
+        text=element_text(size=9),
         axis.title.x=element_blank(),
         axis.title.y=element_blank())+
-  ylim(c(-0.2,0.6))+
+  ylim(c(MIN_X,MAX_X))+
   scale_colour_manual(values=c("darkgray","#ff5252ff","#810000ff"))
 
-Random_SCUO <- ggplot(df[df$concat=="Random" & df$categ=="Helitron" & df$proxy=="SCUO",],
+Random_SCUO <- ggplot(df[df$concat=="Random" & df$categ==CATEG & df$proxy=="SCUO",],
 aes(x=proxy,
       y=cc)) + 
   geom_boxplot()+
-  geom_jitter(aes(color=factor(significant))) +
+  geom_jitter(aes(color=factor(significant)),size=1) +
   theme_bw()+
   theme(legend.position="none",
+        text=element_text(size=9),
         axis.title.y=element_blank(),
         axis.text.y=element_blank(),
         axis.title.x=element_blank())+
-  ylim(c(-0.2,0.6))+
+  ylim(c(MIN_X,MAX_X))+
   scale_colour_manual(values=c("darkgray","#ff5252ff","#810000ff"))+
   scale_x_discrete(labels=c("Random"))
 
@@ -162,31 +176,37 @@ legend <- ggplot(df,
   aes(x=median_GC3,
       y=cc,
       color=significant)) + 
-  geom_point() +
-  scale_colour_manual(values=c("darkgray","#ff5252ff","#810000ff"))
+  geom_point(size=1) +
+  theme_bw()+
+  theme(text=element_text(size=9),
+  legend.text.align = 0.5,
+  legend.title=element_blank(),
+  legend.spacing.y = unit(0.25, 'cm'),
+  legend.background = element_blank(),
+  legend.key = element_rect(color="black",size=0.25 ),
+  legend.box.background = element_blank())+ #element_rect(colour = "black", size=0.25)
+  guides(color = guide_legend(byrow = TRUE))+
+  scale_colour_manual(values=c("darkgray","#ff5252ff","#810000ff")) #, name="pp:"
   
 legend <- cowplot::get_legend(legend)
 library("cowplot")
 
 All <- ggdraw() +
-  draw_plot(NotRandom_omega, x = 0.03, y = 0.0 , width = .2, height = 0.97) +
-  draw_plot(Random_omega, x = 0.23, y = 0.03, width = .1, height = 0.92) + 
-  draw_plot(NotRandom_ENC, x = 0.34, y = 0.03 , width = .2, height = 0.92) +
-  draw_plot(Random_ENC, x = 0.54, y = 0.03, width = .1, height = 0.92) +
-  draw_plot(NotRandom_SCUO, x = 0.65, y = 0.03 , width = .2, height = 0.92) +
-  draw_plot(Random_SCUO, x = 0.85, y = 0.03, width = .1, height = 0.92)+
-  draw_plot(legend, x = 0.95, y = 0.03, width = .1, height = 0.92)+
-  draw_text("Concatenate GC3", x = 0.5, y = 0.015)+
-  draw_text("Correlation coefficient", angle = 90, x= 0.02) +
-  draw_text("Correlation GS ~ omega", y=0.96, x= 0.135, hjust=0) +
-  draw_text("Correlation GS ~ ENC'", y=0.96, x= 0.45, hjust=0) +
-  draw_text("Correlation GS ~ SCUO", y=0.96, x= 0.75, hjust=0)
+  draw_plot(NotRandom_omega, x = 0.02, y = 0.02 , width = .25, height = 0.92) +
+  draw_plot(Random_omega, x = 0.27, y = 0.02, width = .05, height = 0.92) + 
+  draw_plot(NotRandom_ENC, x = 0.36, y = 0.02 , width = .25, height = 0.92) +
+  draw_plot(Random_ENC, x = 0.61, y = 0.02, width = .05, height = 0.92) +
+  draw_plot(NotRandom_SCUO, x = 0.69, y = 0.02 , width = .24, height = 0.92) +
+  draw_plot(Random_SCUO, x = 0.94, y = 0.02, width = .05, height = 0.92)+
+  draw_text("Concatenate GC3", x = 0.5, y = 0.015, size=9)+
+  draw_text("Correlation coefficient", angle = 90, x= 0.015, size=9) +
+  draw_text(paste("Correlation", CATEG,"~ omega"), y=0.95, x= 0.02+0.025, hjust=0, size=9) +
+  draw_text(paste("Correlation", CATEG,"~ ENC'"), y=0.95, x= 0.36+0.025, hjust=0, size=9) +
+  draw_text(paste("Correlation", CATEG,"~ SCUO"), y=0.95, x= 0.69+0.025, hjust=0, size=9)
   
-  plot_grid(All, legend, rel_widths = c(3, .4))
-ggplot(df[df$concat=="Random",], aes(x=median_GC3, y=cc, color=significant)) + 
-  geom_point() + 
-  facet_grid(proxy~categ) +
-  theme_bw()
+All_legend <- plot_grid(All, legend, rel_widths = c(10, 1))
+
+ggsave(plot=All_legend, paste("~/gnd/dN_dS/coevol/",CATEG,".pdf",sep=""),width=20,height=10,units="cm")
 ```
 
 # Adding GC, min, max, median
