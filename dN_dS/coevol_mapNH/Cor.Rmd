@@ -50,13 +50,24 @@ colnames(Cor) <- c("node",
 # Plots
 
 ```{r, eval=F}
-
+library(ggpubr)
 myPalette <- colorRampPalette(rev(hcl.colors(n = 10, palette = "Berlin")))
 
 pvalues = c()
+
+Cor$Aln <- as.factor(Cor$Aln)
+
+#
+Random_list <- paste("Aln",20:29,collapse=NULL, sep="")
+Cor$Title <- ifelse(grepl(paste(Random_list,collapse='|'),Cor$Aln),
+                    paste("Random GC3 (",as.character(round(Cor$median_GC3,4)),")",sep=""),
+                          paste("GC3","=",as.character(round(Cor$median_GC3,4))))
+
+
 for (i in seq(1, length(unique(Cor$Aln)), 6)){
   
   Aln=paste("Aln",i,collapse="",sep="")
+
 
   
   plot <- ggplot(Cor[Cor$Aln %in% levels(Cor$Aln)[i:(i+5)],],
@@ -68,7 +79,7 @@ for (i in seq(1, length(unique(Cor$Aln)), 6)){
     scale_colour_gradientn(colours = myPalette(100))+
     geom_smooth(method = "lm", se = FALSE, color="black", size=1)+
     stat_regline_equation(aes(label =  paste(..eq.label.., ..adj.rr.label.., sep = "~~~~")))+
-    facet_wrap(.~Aln, scales="free", ncol=2, nrow=3)+
+    facet_wrap(.~Title, scales="free", ncol=2, nrow=3)+
   theme_bw()
   
   ggsave(plot = plot,

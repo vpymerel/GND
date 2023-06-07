@@ -16,6 +16,7 @@ do
   done
 done
 
+~/coevol/data/tracecomp
 # Formatting
 
 cd /beegfs/data/merel/GND/dN_dS/coevol/Runs
@@ -78,7 +79,10 @@ df <- df %>%
   ifelse(pp>0.95  | pp<0.5, "pp>0.95\nor\npp<0.05","ns")))
 library(ggplot2)
 
-CATEG = "GS"
+
+for (CATEG in unique(df$categ)){
+  print(CATEG)
+  
 
 MIN=min(df$cc[df$categ==CATEG ])
 MAX=max(df$cc[df$categ==CATEG ])
@@ -207,6 +211,7 @@ All <- ggdraw() +
 All_legend <- plot_grid(All, legend, rel_widths = c(10, 1))
 
 ggsave(plot=All_legend, paste("~/gnd/dN_dS/coevol/",CATEG,".pdf",sep=""),width=20,height=10,units="cm")
+}
 ```
 
 # Adding GC, min, max, median

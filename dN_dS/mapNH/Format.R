@@ -90,8 +90,8 @@ for (Categ in Categs){
 #Adding aln
 dfE$Aln = args[1]
 
-#adjusting pvalues
-dfE$p <- p.adjust(dfE$p, method="BH")
+#adjusting pvalues for tables
+dfE$p_adj <- p.adjust(dfE$p, method="BH")
 
 
 write.table(dfE, "df.csv", quote=F, row.names=F, col.names=F)
