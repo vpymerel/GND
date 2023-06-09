@@ -115,6 +115,11 @@ RANGE=MAX-MIN
 MIN_X=MIN-RANGE/100
 MAX_X=MAX+RANGE/100
 
+#mean homogeneous
+mean(df$cc[df$categ==CATEG & df$proxy=="omega" & df$concat!="Random"])
+#mean heterogeneous
+mean(df$cc[df$categ==CATEG & df$proxy=="omega" & df$concat=="Random"])
+
 Intercept=p_df$Intercept[p_df$categ==CATEG & p_df$X=="median_GC3"]
 Slope=p_df$Slope[p_df$categ==CATEG & p_df$X=="median_GC3"]
 P=p_df$p.adj[p_df$categ==CATEG & p_df$X=="median_GC3"]
