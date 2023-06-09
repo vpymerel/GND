@@ -44,7 +44,19 @@ colnames(Cor) <- c("node",
                    "min_GC3",
                    "max_GC3",
                    "median_GC3")
+#out of curiosity
+plot(Cor$median_GC3, Cor$omega_coevol)
+ggplot(Cor,
+       aes(x=as.factor(median_GC3),
+           y=omega_coevol))+geom_boxplot()
+
+ggplot(Cor,
+       aes(x=as.factor(median_GC3),
+           y=omega_mapNH))+
+  geom_boxplot()
+
 ```
+
 
 
 # Plots

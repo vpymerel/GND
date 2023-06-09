@@ -1,5 +1,5 @@
 
-# Impo
+# Import
 
 ```{r, eval=F}
 library(ggplot2)
@@ -26,6 +26,87 @@ df <- df %>%
 
 #ifelse(pp>0.95,"pp>0.95",
 
+#Adding median omega
+Cor <- read.table("~/gnd/dN_dS/coevol_mapNH/Cor.csv", quote="\"", comment.char="")
+head(Cor)
+colnames(Cor) <- c("node",
+                   "omega_mapNH",
+                   "omega_coevol",
+                   "branch.length",
+                   "Aln",
+                   "min_GC3",
+                   "max_GC3",
+                   "median_GC3")
+Cor <- Cor %>%
+  group_by(Aln) %>%
+  summarize(omega_coevol=median(omega_coevol),
+            omega_mapNH=median(omega_mapNH, na.rm=T))
+
+df <-  df %>%
+  left_join(Cor, df, by=c("Aln"))
+```
+
+# Cor
+
+```{r, eval=F}
+
+p_df <- data.frame(
+  categ=character(),
+  X=character(),
+  Intercept=numeric(),
+  Slope=numeric(),
+  p=numeric())
+
+i=0
+
+for (CATEG in c("GS","DNA","Helitron", "LINE", "LTR", "SINE", "TEs")){
+  
+  print(CATEG)
+  
+  Y=df$cc[df$categ==CATEG &
+            df$proxy=="omega" &
+            df$concat!="Random"]
+    
+  for (x in c("median_GC3","omega_coevol","omega_mapNH")){
+    
+    X=df[df$categ==CATEG &
+                         df$proxy=="omega" &
+                         df$concat!="Random", x]
+    
+    linear_model <- lm(Y~X)
+    Intercept=linear_model$coefficients[[1]]
+    Slope=linear_model$coefficients[[2]]
+  
+    
+    tmp <- data.frame(
+      categ=CATEG,
+      X=x,
+      Intercept=Intercept,
+      Slope=Slope,
+      p=cor.test(X,Y,method='pearson')$p.value)
+      
+    p_df <- rbind(p_df, tmp)  
+  
+  }
+}
+
+
+p_df$p.adj[p_df$X=="median_GC3"] <- p.adjust(p_df$p[p_df$X=="median_GC3"],
+                       method="BH")
+
+p_df$p.adj[p_df$X=="omega_coevol"] <- p.adjust(p_df$p[p_df$X=="omega_coevol"],
+                       method="BH")
+
+p_df$p.adj[p_df$X=="omega_mapNH"] <- p.adjust(p_df$p[p_df$X=="omega_mapNH"],
+                       method="BH")
+
+```
+
+# GS only
+
+```{r, eval=F}
+
+
 CATEG="GS"
 
 MIN=min(df$cc[df$categ==CATEG & df$proxy=="omega"])
@@ -34,12 +115,28 @@ RANGE=MAX-MIN
 MIN_X=MIN-RANGE/100
 MAX_X=MAX+RANGE/100
 
+Intercept=p_df$Intercept[p_df$categ==CATEG & p_df$X=="median_GC3"]
+Slope=p_df$Slope[p_df$categ==CATEG & p_df$X=="median_GC3"]
+P=p_df$p.adj[p_df$categ==CATEG & p_df$X=="median_GC3"]
+
 NotRandom_omega <- ggplot(df[df$concat!="Random" & df$categ==CATEG & df$proxy=="omega",],
   aes(x=median_GC3,
       y=cc,
       color=pp_significant,
       shape=p.adj_significant)) + 
   geom_point(size=1) +
+  geom_abline(
+    intercept=Intercept,
+    slope=Slope,
+    alpha=ifelse(P<0.05,1,0),
+    color="darkgray")+
+  annotate(geom="text",
+           x=0.7,
+           y=0.5,
+           size=3,
+           alpha=ifelse(P<0.05,1,0),
+           label=paste("y=",as.character(round(Slope,2)),"x+",as.character(round(Intercept,2)),sep=""),
+           color="darkgray")+
   theme_bw()+
   theme(legend.position="none",
         text=element_text(size=9),
@@ -61,7 +158,8 @@ Random_omega <- ggplot(df[df$concat=="Random" & df$categ==CATEG & df$proxy=="ome
         axis.text.y=element_blank(),
         axis.title.x=element_blank())+
   ylim(c(MIN_X,MAX_X))+
-  scale_colour_manual(values=c("darkgray","#810000ff"))+
+  scale_colour_manual(values=c("darkgray",
+                                         "#810000ff"))+
   scale_x_discrete(labels=c("Random"))
 #,"#ff5252ff"
 
@@ -105,6 +203,8 @@ ggsave(plot=All_legend, paste("~/gnd/dN_dS/coevol_mapNH/Figure_2.png",sep=""),
        units="cm")
 
 
+
+
 ```
 
 
@@ -127,16 +227,10 @@ for (CATEG in c("DNA","Helitron", "LINE", "LTR", "SINE", "TEs")){
   MIN_X=MIN-RANGE/100
   MAX_X=MAX+RANGE/100
   
-  #To draw a correlation
-  X=df$median_GC3[df$categ==CATEG &
-                    df$proxy=="omega" &
-                    df$concat!="Random"]
-  Y=df$cc[df$categ==CATEG &
-            df$proxy=="omega" &
-            df$concat!="Random"]
-  linear_model <- lm(Y~X)
-  Intercept=linear_model$coefficients[[1]]
-  Slope=linear_model$coefficients[[2]]
+
+  Intercept=p_df$Intercept[p_df$categ==CATEG & p_df$X=="median_GC3"]
+  Slope=p_df$Slope[p_df$categ==CATEG & p_df$X=="median_GC3"]
+  P=p_df$p.adj[p_df$categ==CATEG & p_df$X=="median_GC3"]
   
   print("Plop")
   
@@ -146,7 +240,17 @@ for (CATEG in c("DNA","Helitron", "LINE", "LTR", "SINE", "TEs")){
         color=pp_significant,
         shape=p.adj_significant)) + 
     geom_point(size=1) +
-    geom_abline(intercept = Intercept, slope=Slope) +
+    geom_abline(intercept = Intercept,
+                slope=Slope,
+                alpha=ifelse(P<0.05,1,0),
+                color="darkgray") +
+  annotate(geom="text",
+           x=0.7,
+           y=MAX-RANGE/10,
+           size=3,
+           alpha=ifelse(P<0.05,1,0),
+           label=paste("y=",as.character(round(Slope,2)),"x+",as.character(round(Intercept,2)),sep=""),
+           color="darkgray")+
     theme_bw()+
     theme(legend.position="none",
           text=element_text(size=9),
@@ -212,46 +316,14 @@ for (CATEG in c("DNA","Helitron", "LINE", "LTR", "SINE", "TEs")){
 #Adding a legend to the last one
 plot_list[[i]] <- All_legend
 
-plot_grid(plotlist = plot_list, ncol=2)
 
+plot <- plot_grid(plotlist = plot_list, ncol=2)
 
-plot_list[[i]] <- plot_list[[i]]+geom_abline(intercept=0, slope=1)
+ggsave(plot=plot, paste("~/gnd/dN_dS/coevol_mapNH/Sup.png",sep=""),
+       width=20,
+       height=20,
+       units="cm")
 
-CATEG="LINE"
-head(df)
 
 ```
 
-# Cor
-
-```{r, eval=F}
-
-p_df <- data.frame(
-  categ=character(),
-  p=numeric()
-)
-
-i=0
-
-for (CATEG in c("GS","DNA","Helitron", "LINE", "LTR", "SINE", "TEs")){
-  
-  print(CATEG)
-  
-  X=df$median_GC3[df$categ==CATEG &
-                    df$proxy=="omega" &
-                    df$concat!="Random"]
-  Y=df$cc[df$categ==CATEG &
-            df$proxy=="omega" &
-            df$concat!="Random"]
-
-  tmp <- data.frame(
-    categ=CATEG,
-    p=cor.test(X,Y,method='pearson')$p.value)
-  
-  p_df <- rbind(p_df, tmp)  
-}
-
-
-p_df$p.adj <- p.adjust(p_df$p,
-                       method="BH")
-```
