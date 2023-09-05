@@ -15,7 +15,8 @@ You will find in this repository scripts and data corresponding to **Publication
 
 ## TEs
 
-- dnaPipeTE.Rmd: to estimate TE content, from reads processing to actual estimation using dnaPipeTE.
+- dnaPipeTE.Rmd: to estimate TE content, from reads processing to actual estimation using dnaPipeTE;
+- Kim.R: to compare TE abundance estimates with [Kim et al., 2021](https://doi.org/10.7554/eLife.66405).
 
 ## Phylogenetic inertia
 

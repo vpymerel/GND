@@ -16,53 +16,22 @@ cub_table <- cub_table %>% group_by(genes) %>% summarize(GC3=median(GC3))
 ##sorting
 sorted_cub_table <- cub_table[order(cub_table$GC3),]
 
-###Min, , and median###
-
-#Min GC concatenate
-head(sorted_cub_table, 50)
-Aln0 <- paste(head(sorted_cub_table, 50)$genes,".noStop_noFS",sep="")
-Aln0 <-paste(Aln0,collapse=" ") ##As a string
-
-#Max GC concatenate
-Aln2 <- paste(tail(sorted_cub_table, 50)$genes,".noStop_noFS",sep="")
-Aln2 <- paste(Aln2,collapse=" ")
-
-#Median GC concatenate
-Median <- median(sort(sorted_cub_table$GC3))
-Index <- which.min(abs((sorted_cub_table$GC3 - Median))) #Index of closest gene
-Aln1 <- paste(sorted_cub_table[(Index-24):(Index+25),]$genes,".noStop_noFS",sep="")
-Aln1 <- paste(Aln1,collapse=" ")
-
-cpt = 0
-
-for (i in c(Aln0,Aln1,Aln2)){
-	fileConn<-file(paste("Aln",as.character(cpt),".txt",sep=""))
-	writeLines(i, fileConn)
-	close(fileConn)
-	
-	cpt=cpt+1
-}
-
-
-############################
-
-###########Others###########
 #Other
-Min = sorted_cub_table$GC3[25]
-Max = sorted_cub_table$GC3[length(sorted_cub_table$GC3)-25]
-Step = (Max - Min)/18 
-Seq = seq(Min+Step, Max-Step, by=Step)
+Min = sorted_cub_table$GC3[7]
+Max = sorted_cub_table$GC3[length(sorted_cub_table$GC3)-7]
+Step = (Max - Min)/9 
+Seq = seq(Min, Max, by=Step)
 length(Seq)
 
-cpt = 3
+cpt = 0
 
 for (i in Seq){
 
 	Index <- which.min(abs((sorted_cub_table$GC3 - i))) #Index of closest gene
-	Aln <- paste(sorted_cub_table[(Index-24):(Index+25),]$genes,".noStop_noFS",sep="")
+	Aln <- paste(sorted_cub_table[(Index-6):(Index+7),]$genes,".noStop_noFS",sep="")
 	Aln <- paste(Aln,collapse=" ")
 
-	fileConn<-file(paste("Aln",as.character(cpt),".txt",sep=""))
+	fileConn<-file(paste("Aln",as.character(cpt),".bis.txt",sep=""))
 	writeLines(Aln, fileConn)
 	close(fileConn)
 
@@ -70,13 +39,13 @@ for (i in Seq){
 }
 
 ###########Random###########
-for (cpt in seq(20,29)){
+for (cpt in seq(10,19)){
 
 
-	Aln <- paste(sample(sorted_cub_table$genes,50),".noStop_noFS",sep="")
+	Aln <- paste(sample(sorted_cub_table$genes,14),".noStop_noFS",sep="")
 	Aln <- paste(Aln,collapse=" ")
 
-	fileConn<-file(paste("Aln",as.character(cpt),".txt",sep=""))
+	fileConn<-file(paste("Aln",as.character(cpt),".bis.txt",sep=""))
 	writeLines(Aln, fileConn)
 	close(fileConn)
 

@@ -21,7 +21,8 @@ Random_list <- paste("Aln",20:29,collapse=NULL, sep="")
 
 df <- df %>%
   mutate(concat=ifelse(grepl(paste(Random_list,collapse='|'),Aln),"Random","NotRandom")) %>%
-  mutate(pp_significant=ifelse(pp>0.975,"pp>0.975","ns")) %>%
+  mutate(pp_significant=ifelse(pp>0.975,"pp>0.975",
+                               ifelse(pp>0.95,"pp>0.95","ns"))) %>%
   mutate(p.adj_significant=ifelse(p.adj<0.05,"p.adj<0.05","ns"))
 
 #ifelse(pp>0.95,"pp>0.95",
@@ -49,6 +50,8 @@ df <-  df %>%
 # Cor
 
 ```{r, eval=F}
+#removing overlap
+df <- df[df$Aln!="Aln3" & df$Aln!="Aln4" & df$Aln!="Aln5" & df$Aln!="Aln6",]
 
 p_df <- data.frame(
   categ=character(),
@@ -69,6 +72,8 @@ for (CATEG in c("GS","DNA","Helitron", "LINE", "LTR", "SINE", "TEs")){
     
   for (x in c("median_GC3","omega_coevol","omega_mapNH")){
     
+    print(x)
+    
     X=df[df$categ==CATEG &
                          df$proxy=="omega" &
                          df$concat!="Random", x]
@@ -77,6 +82,9 @@ for (CATEG in c("GS","DNA","Helitron", "LINE", "LTR", "SINE", "TEs")){
     Intercept=linear_model$coefficients[[1]]
     Slope=linear_model$coefficients[[2]]
   
+    
+
+    if (CATEG=="GS"){print(cor.test(Y,X))}
     
     tmp <- data.frame(
       categ=CATEG,
@@ -89,6 +97,8 @@ for (CATEG in c("GS","DNA","Helitron", "LINE", "LTR", "SINE", "TEs")){
   
   }
 }
+
+
 
 
 p_df$p.adj[p_df$X=="median_GC3"] <- p.adjust(p_df$p[p_df$X=="median_GC3"],
@@ -106,7 +116,6 @@ p_df$p.adj[p_df$X=="omega_mapNH"] <- p.adjust(p_df$p[p_df$X=="omega_mapNH"],
 
 ```{r, eval=F}
 
-
 CATEG="GS"
 
 MIN=min(df$cc[df$categ==CATEG & df$proxy=="omega"])
@@ -115,6 +124,15 @@ RANGE=MAX-MIN
 MIN_X=MIN-RANGE/100
 MAX_X=MAX+RANGE/100
 
+#chi-2
+    chi2_matrix <- matrix(nrow=2,ncol=2)
+    chi2_matrix[1,1] <- sum(ifelse(df$pp[df$categ==CATEG & df$proxy=="omega" & df$concat!="Random"]>=0.975,1,0))
+    chi2_matrix[1,2] <- sum(ifelse(df$pp[df$categ==CATEG & df$proxy=="omega" & df$concat!="Random"]<0.975,1,0))
+    chi2_matrix[2,1] <- sum(ifelse(df$pp[df$categ==CATEG & df$proxy=="omega" & df$concat=="Random"]>=0.975,1,0))
+    chi2_matrix[2,2] <- sum(ifelse(df$pp[df$categ==CATEG & df$proxy=="omega" & df$concat=="Random"]<0.975,1,0))
+    chisq <- chisq.test(chi2_matrix)
+    print(chisq)
+    
 #mean homogeneous
 mean(df$cc[df$categ==CATEG & df$proxy=="omega" & df$concat!="Random"])
 #mean heterogeneous
@@ -130,6 +148,8 @@ NotRandom_omega <- ggplot(df[df$concat!="Random" & df$categ==CATEG & df$proxy=="
       color=pp_significant,
       shape=p.adj_significant)) + 
   geom_point(size=1) +
+  geom_segment(data=df[df$concat!="Random" & df$categ==CATEG & df$proxy=="omega",],
+               aes(x=min_GC3,xend=max_GC3,y=cc,yend=cc))+
   geom_abline(
     intercept=Intercept,
     slope=Slope,
@@ -149,7 +169,7 @@ NotRandom_omega <- ggplot(df[df$concat!="Random" & df$categ==CATEG & df$proxy=="
         axis.title.x=element_blank(),
         axis.title.y=element_blank())+
   ylim(c(MIN_X,MAX_X))+
-  scale_colour_manual(values=c("darkgray","#810000ff"))
+  scale_colour_manual(values=c("darkgray","#D46A6A","#801515"))
 #legend.position="none",
 #,"#ff5252ff"
 Random_omega <- ggplot(df[df$concat=="Random" & df$categ==CATEG & df$proxy=="omega",],           aes(x=proxy,
@@ -163,8 +183,8 @@ Random_omega <- ggplot(df[df$concat=="Random" & df$categ==CATEG & df$proxy=="ome
         axis.text.y=element_blank(),
         axis.title.x=element_blank())+
   ylim(c(MIN_X,MAX_X))+
-  scale_colour_manual(values=c("darkgray",
-                                         "#810000ff"))+
+  scale_colour_manual(values=c("darkgray","#D46A6A",
+                                         "#801515"))+
   scale_x_discrete(labels=c("Random"))
 #,"#ff5252ff"
 
@@ -173,18 +193,19 @@ legend <- ggplot(df,
       y=cc,
       color=pp_significant,
       shape=p.adj_significant)) + 
-  geom_point(size=1) +
+  geom_point(size=1.25) +
   theme_bw()+
-  theme(text=element_text(size=9),
+  theme(text=element_text(size=8),
   legend.text.align = 0.5,
   legend.title=element_blank(),
   legend.spacing.y = unit(0.25, 'cm'),
+  legend.spacing.x = unit(0, 'cm'),
   legend.background = element_blank(),
-  legend.key = element_rect(color="black",size=0.25 ),
+  legend.key = element_blank(), #element_rect(color="black",size=0.15 ),
   legend.box.background = element_blank())+ #element_rect(colour = "black", size=0.25)
   guides(color = guide_legend(byrow = TRUE),
          shape = guide_legend(byrow = TRUE))+
-  scale_colour_manual(values=c("darkgray","#810000ff"))+
+  scale_colour_manual(values=c("darkgray","#D46A6A","#801515"))+
   scale_shape_manual(values=c(16,17),na.translate = F)#, name="pp:"
 
 #,"#ff5252ff"
@@ -245,6 +266,8 @@ for (CATEG in c("DNA","Helitron", "LINE", "LTR", "SINE", "TEs")){
         color=pp_significant,
         shape=p.adj_significant)) + 
     geom_point(size=1) +
+      geom_segment(data=df[df$concat!="Random" & df$categ==CATEG & df$proxy=="omega",],
+               aes(x=min_GC3,xend=max_GC3,y=cc,yend=cc))+
     geom_abline(intercept = Intercept,
                 slope=Slope,
                 alpha=ifelse(P<0.05,1,0),
@@ -263,7 +286,7 @@ for (CATEG in c("DNA","Helitron", "LINE", "LTR", "SINE", "TEs")){
           axis.title.x=element_blank(),
           axis.title.y=element_blank())+
     ylim(c(MIN_X,MAX_X))+
-    scale_colour_manual(values=c("darkgray","#810000ff"))
+    scale_colour_manual(values=c("darkgray","#D46A6A","#801515"))
   #legend.position="none",
   #,"#ff5252ff"
   Random_omega <- ggplot(df[df$concat=="Random" & df$categ==CATEG & df$proxy=="omega",],           aes(x=proxy,
@@ -277,7 +300,7 @@ for (CATEG in c("DNA","Helitron", "LINE", "LTR", "SINE", "TEs")){
           axis.text.y=element_blank(),
           axis.title.x=element_blank())+
     ylim(c(MIN_X,MAX_X))+
-    scale_colour_manual(values=c("darkgray","#810000ff"))+
+    scale_colour_manual(values=c("darkgray","#D46A6A","#801515"))+
     scale_x_discrete(labels=c("Random"))
   #,"#ff5252ff"
   
@@ -292,12 +315,13 @@ for (CATEG in c("DNA","Helitron", "LINE", "LTR", "SINE", "TEs")){
     legend.text.align = 0.5,
     legend.title=element_blank(),
     legend.spacing.y = unit(0.25, 'cm'),
+    legend.spacing.x = unit(0, 'cm'),
     legend.background = element_blank(),
-    legend.key = element_rect(color="black",size=0.25 ),
+    legend.key = element_blank(),#element_rect(color="black",size=0.25 ),
     legend.box.background = element_blank())+ #element_rect(colour = "black", size=0.25)
     guides(color = guide_legend(byrow = TRUE),
            shape = guide_legend(byrow = TRUE))+
-    scale_colour_manual(values=c("darkgray","#810000ff"))+
+    scale_colour_manual(values=c("darkgray","#D46A6A","#801515"))+
     scale_shape_manual(values=c(16,17),na.translate = F)#, name="pp:"
   
   #,"#ff5252ff"
