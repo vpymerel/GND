@@ -44,15 +44,28 @@ colnames(Cor) <- c("node",
                    "min_GC3",
                    "max_GC3",
                    "median_GC3")
+
+#removing overlap
+Cor <- Cor[Cor$Aln!="Aln3" & Cor$Aln!="Aln4" & Cor$Aln!="Aln5" & Cor$Aln!="Aln6",]
+
+
 #out of curiosity
+#No Random (i.e. Aln > )
+Random_list <- paste("Aln",20:29,collapse=NULL, sep="")
+
+Cor <- Cor %>%
+  mutate(concat=ifelse(grepl(paste(Random_list,collapse='|'),Aln),"Random","NotRandom")) 
+
 plot(Cor$median_GC3, Cor$omega_coevol)
 ggplot(Cor,
        aes(x=as.factor(median_GC3),
-           y=omega_coevol))+geom_boxplot()
+           y=omega_coevol, 
+           fill=concat))+geom_boxplot()+facet_grid(.~concat)
 
 ggplot(Cor,
        aes(x=as.factor(median_GC3),
-           y=omega_mapNH))+
+           y=omega_mapNH,
+           fill=concat))+facet_grid(.~concat)+
   geom_boxplot()
 
 ```
@@ -109,27 +122,81 @@ rm ~/gnd/dN_dS/coevol_mapNH/Cor_*pdf
 
 ```
 
+# Plots short
+
+```{r, eval=F}
+Aln_short <- as.character(sample(unique(Cor$Aln),6))
+
+ggplot(Cor[Cor$Aln %in% Aln_short,],
+       aes(x=omega_mapNH,
+           y=omega_coevol))+ #color=branch.length
+  geom_point()+
+    geom_abline(slope=1,intercept=0,size=1, linetype = "dashed")+
+    #scale_colour_gradientn(colours = myPalette(100))+
+    geom_smooth(method = "lm", se = FALSE, color="black", size=1)+
+    stat_regline_equation(aes(label =  paste(..eq.label.., ..adj.rr.label.., sep = "~~~~")))+
+    facet_wrap(.~Title, scales="free", ncol=2, nrow=3)+
+  theme_bw()+ 
+theme(
+  strip.background = element_blank(),
+  strip.text.x = element_blank()
+)
+
+ggsave(filename = paste0("~/gnd/dN_dS/coevol_mapNH/CorShort.png"), #Tiens c'est rigolo ça
+       width = 21,
+       height = 24,
+       units = "cm")
+
+```
 # pvalues and R2
 
 ```{r, eval=F}
 
 df = data.frame(
   Aln=character(),
+  median_GC3=character(),
   pvalue=numeric(),
   R2=numeric()
 )
 
 for (Aln in unique(Cor$Aln)){
   
+  
   Lm <- lm(Cor[Cor$Aln==Aln,"omega_mapNH"] ~ Cor[Cor$Aln==Aln,"omega_coevol"])
+  median_GC3 <- min(Cor[Cor$Aln==Aln,"median_GC3"])
   Summary <- summary(Lm)
   
   R2 <- Summary$r.squared
+  p <- Summary$coefficients[2,4]
+  
+  tmp <- data.frame(Aln=Aln,
+                    median_GC3=median_GC3,
+                    pvalue=p,
+                    R2=R2)
+  df <- rbind(df,tmp)
 }
+
+ggplot(df,
+       aes(x=R2))+
+  geom_histogram()+
+  xlab("R²")+
+  ylab("Counts")+
+  theme_bw()
+
+summary(p.adjust(df$pvalue, method="BH")<0.05)
+  
+ggsave(filename = paste0("~/gnd/dN_dS/coevol_mapNH/CorHist.png"), #Tiens c'est rigolo ça
+       width = 21,
+       height = 12,
+       units = "cm")
+  
+
+mean(df$R2)
+plot(df$R2,df$median_GC3)
 summary(pvalues<0.05)
 summary(p.adjust(pvalues, method="hochberg")<0.05)
 
-ggplot(Cor[Cor$Aln=="Aln14",],
+ggplot(Cor[Cor$Aln=="Aln7",],
        aes(x=omega_mapNH,
            y=omega_coevol,
            color=branch.length))+

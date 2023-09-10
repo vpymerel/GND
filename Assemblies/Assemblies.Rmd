@@ -131,11 +131,16 @@ plot_df <- quast_busco_results  %>% tidyr::pivot_longer(names_to="BUSCO genes", 
 
 #Percentage are better
 plot_df$value <- plot_df$value/3285*100
+#lowei is not public
+plot_df <- plot_df[plot_df$species!="D. lowei",]
+
 plot_df$species <- factor(plot_df$species, levels=unique(plot_df$species))
 plot_df$`BUSCO genes` <- factor(plot_df$`BUSCO genes`, levels=unique(plot_df$`BUSCO genes`))
 
 library(ggplot2)
-ggplot(plot_df,
+
+
+ggplot(plot_df, 
        aes(x=species,
            y=value,
            fill=`BUSCO genes`))+geom_bar(stat="identity") +

@@ -84,7 +84,7 @@ for (CATEG in c("GS","DNA","Helitron", "LINE", "LTR", "SINE", "TEs")){
   
     
 
-    if (CATEG=="GS"){print(cor.test(Y,X))}
+    if (CATEG=="TEs"){print(cor.test(Y,X))}
     
     tmp <- data.frame(
       categ=CATEG,
@@ -112,120 +112,144 @@ p_df$p.adj[p_df$X=="omega_mapNH"] <- p.adjust(p_df$p[p_df$X=="omega_mapNH"],
 
 ```
 
-# GS only
+# GS - TEs only
 
 ```{r, eval=F}
-
 CATEG="GS"
-
-MIN=min(df$cc[df$categ==CATEG & df$proxy=="omega"])
-MAX=max(df$cc[df$categ==CATEG & df$proxy=="omega"])
-RANGE=MAX-MIN
-MIN_X=MIN-RANGE/100
-MAX_X=MAX+RANGE/100
+CATEG="Helitron"
 
 #chi-2
     chi2_matrix <- matrix(nrow=2,ncol=2)
-    chi2_matrix[1,1] <- sum(ifelse(df$pp[df$categ==CATEG & df$proxy=="omega" & df$concat!="Random"]>=0.975,1,0))
-    chi2_matrix[1,2] <- sum(ifelse(df$pp[df$categ==CATEG & df$proxy=="omega" & df$concat!="Random"]<0.975,1,0))
-    chi2_matrix[2,1] <- sum(ifelse(df$pp[df$categ==CATEG & df$proxy=="omega" & df$concat=="Random"]>=0.975,1,0))
-    chi2_matrix[2,2] <- sum(ifelse(df$pp[df$categ==CATEG & df$proxy=="omega" & df$concat=="Random"]<0.975,1,0))
+    chi2_matrix[1,1] <- sum(ifelse(df$pp[df$categ==CATEG & df$proxy=="omega" & df$concat!="Random"]>0.95,1,0))
+    chi2_matrix[1,2] <- sum(ifelse(df$pp[df$categ==CATEG & df$proxy=="omega" & df$concat!="Random"]<=0.95,1,0))
+    chi2_matrix[2,1] <- sum(ifelse(df$pp[df$categ==CATEG & df$proxy=="omega" & df$concat=="Random"]>0.95,1,0))
+    chi2_matrix[2,2] <- sum(ifelse(df$pp[df$categ==CATEG & df$proxy=="omega" & df$concat=="Random"]<=0.95,1,0))
     chisq <- chisq.test(chi2_matrix)
     print(chisq)
     
-#mean homogeneous
-mean(df$cc[df$categ==CATEG & df$proxy=="omega" & df$concat!="Random"])
-#mean heterogeneous
-mean(df$cc[df$categ==CATEG & df$proxy=="omega" & df$concat=="Random"])
 
-Intercept=p_df$Intercept[p_df$categ==CATEG & p_df$X=="median_GC3"]
-Slope=p_df$Slope[p_df$categ==CATEG & p_df$X=="median_GC3"]
-P=p_df$p.adj[p_df$categ==CATEG & p_df$X=="median_GC3"]
+    
+    
+    plot_list <- list()
 
-NotRandom_omega <- ggplot(df[df$concat!="Random" & df$categ==CATEG & df$proxy=="omega",],
-  aes(x=median_GC3,
-      y=cc,
-      color=pp_significant,
-      shape=p.adj_significant)) + 
-  geom_point(size=1) +
-  geom_segment(data=df[df$concat!="Random" & df$categ==CATEG & df$proxy=="omega",],
-               aes(x=min_GC3,xend=max_GC3,y=cc,yend=cc))+
-  geom_abline(
-    intercept=Intercept,
-    slope=Slope,
-    alpha=ifelse(P<0.05,1,0),
-    color="darkgray")+
-  annotate(geom="text",
-           x=0.7,
-           y=0.5,
-           size=3,
-           alpha=ifelse(P<0.05,1,0),
-           label=paste("y=",as.character(round(Slope,2)),"x+",as.character(round(Intercept,2)),sep=""),
-           color="darkgray")+
-  theme_bw()+
-  theme(legend.position="none",
-        text=element_text(size=9),
-        legend.title=element_blank(),
-        axis.title.x=element_blank(),
-        axis.title.y=element_blank())+
-  ylim(c(MIN_X,MAX_X))+
-  scale_colour_manual(values=c("darkgray","#D46A6A","#801515"))
-#legend.position="none",
-#,"#ff5252ff"
-Random_omega <- ggplot(df[df$concat=="Random" & df$categ==CATEG & df$proxy=="omega",],           aes(x=proxy,
-      y=cc)) + 
-  geom_boxplot()+
-  geom_jitter(aes(color=pp_significant, shape=p.adj_significant), size=1) +
-  theme_bw()+
-  theme(legend.position="none",
-        text=element_text(size=9),
-        axis.title.y=element_blank(),
-        axis.text.y=element_blank(),
-        axis.title.x=element_blank())+
-  ylim(c(MIN_X,MAX_X))+
-  scale_colour_manual(values=c("darkgray","#D46A6A",
-                                         "#801515"))+
-  scale_x_discrete(labels=c("Random"))
-#,"#ff5252ff"
+i=0
 
-legend <- ggplot(df,
-  aes(x=median_GC3,
-      y=cc,
-      color=pp_significant,
-      shape=p.adj_significant)) + 
-  geom_point(size=1.25) +
-  theme_bw()+
-  theme(text=element_text(size=8),
-  legend.text.align = 0.5,
-  legend.title=element_blank(),
-  legend.spacing.y = unit(0.25, 'cm'),
-  legend.spacing.x = unit(0, 'cm'),
-  legend.background = element_blank(),
-  legend.key = element_blank(), #element_rect(color="black",size=0.15 ),
-  legend.box.background = element_blank())+ #element_rect(colour = "black", size=0.25)
-  guides(color = guide_legend(byrow = TRUE),
-         shape = guide_legend(byrow = TRUE))+
-  scale_colour_manual(values=c("darkgray","#D46A6A","#801515"))+
-  scale_shape_manual(values=c(16,17),na.translate = F)#, name="pp:"
+for (CATEG in c("GS","TEs")){
+  print(CATEG)
 
-#,"#ff5252ff"
+  #mean homogeneous
+  print(mean(df$cc[df$categ==CATEG & df$proxy=="omega" & df$concat!="Random"]))
+  #mean heterogeneous
+  print(mean(df$cc[df$categ==CATEG & df$proxy=="omega" & df$concat=="Random"]))
 
-legend <- cowplot::get_legend(legend)
-library("cowplot")
+  i=i+1
+  
+  MIN=min(df$cc[df$categ==CATEG & df$proxy=="omega"])
+  MAX=max(df$cc[df$categ==CATEG & df$proxy=="omega"])
+  RANGE=MAX-MIN
+  MIN_X=MIN-RANGE/100
+  MAX_X=MAX+RANGE/100
+  
 
-All <- ggdraw() +
-  draw_plot(NotRandom_omega, x = 0.02, y = 0.02 , width = .70, height = 0.92) +
-  draw_plot(Random_omega, x = 0.75, y = 0.02, width = .20, height = 0.92) + 
-  draw_text("Concatenate GC3", x = 0.5, y = 0.015, size=9)+
-  draw_text("Correlation coefficient", angle = 90, x= 0.015, size=9) +
-  draw_text(paste("Correlation", CATEG,"~ dN/dS"), y=0.95, x= 0.02+0.025, hjust=0, size=9)
+  Intercept=p_df$Intercept[p_df$categ==CATEG & p_df$X=="median_GC3"]
+  Slope=p_df$Slope[p_df$categ==CATEG & p_df$X=="median_GC3"]
+  P=p_df$p.adj[p_df$categ==CATEG & p_df$X=="median_GC3"]
+  
+  print("Plop")
+  
+  NotRandom_omega <- ggplot(df[df$concat!="Random" & df$categ==CATEG & df$proxy=="omega",],
+    aes(x=median_GC3*100,
+        y=cc,
+        color=pp_significant,
+        shape=p.adj_significant)) + 
+    geom_point(size=2) +
+      geom_segment(data=df[df$concat!="Random" & df$categ==CATEG & df$proxy=="omega",],
+               aes(x=min_GC3*100,xend=max_GC3*100,y=cc,yend=cc))+
+    #geom_abline(intercept = Intercept,
+    #            slope=Slope,
+    #            alpha=ifelse(P<0.05,1,0),
+    #            color="darkgray") +
+  #annotate(geom="text",
+  #         x=0.7,
+  #         y=MAX-RANGE/10,
+  #         size=3,
+  #         alpha=ifelse(P<0.05,1,0),
+  #         label=paste("y=",as.character(round(Slope,2)),"x+",as.character(round(Intercept,2)),sep=""),
+  #         color="darkgray")+
+    theme_bw()+
+    theme(legend.position="none",
+          text=element_text(size=9),
+          legend.title=element_blank(),
+          axis.title.x=element_blank(),
+          axis.title.y=element_blank())+
+    ylim(c(MIN_X,MAX_X))+
+    scale_colour_manual(values=c("darkgray","#D46A6A","#801515"))
+  #legend.position="none",
+  #,"#ff5252ff"
+  Random_omega <- ggplot(df[df$concat=="Random" & df$categ==CATEG & df$proxy=="omega",],           aes(x=proxy,
+        y=cc)) + 
+    geom_boxplot()+
+    geom_jitter(aes(color=pp_significant, shape=p.adj_significant), size=2) +
+    theme_bw()+
+    theme(legend.position="none",
+          text=element_text(size=9),
+          axis.title.y=element_blank(),
+          axis.text.y=element_blank(),
+          axis.title.x=element_blank())+
+    ylim(c(MIN_X,MAX_X))+
+    scale_colour_manual(values=c("darkgray","#D46A6A","#801515"))+
+    scale_x_discrete(labels=c("Random"))
+  #,"#ff5252ff"
+  
+  legend <- ggplot(df,
+    aes(x=median_GC3,
+        y=cc,
+        color=pp_significant,
+        shape=p.adj_significant)) + 
+    geom_point(size=2) +
+    theme_bw()+
+    theme(text=element_text(size=9),
+          legend.position="bottom",
+    legend.text.align = 0.5,
+    legend.title=element_blank(),
+    legend.spacing.y = unit(0.25, 'cm'),
+    legend.spacing.x = unit(0, 'cm'),
+    legend.background = element_blank(),
+    legend.key = element_blank(),#element_rect(color="black",size=0.25 ),
+    legend.box.background = element_blank())+ #element_rect(colour = "black", size=0.25)
+    guides(color = guide_legend(byrow = TRUE),
+           shape = guide_legend(byrow = TRUE))+
+    scale_colour_manual(values=c("darkgray","#D46A6A","#801515"))+
+    scale_shape_manual(values=c(16,17),na.translate = F)#, name="pp:"
+  
+  #,"#ff5252ff"
+  
+  legend <- cowplot::get_legend(legend)
+  library("cowplot")
+  
+  All <- ggdraw() +
+    draw_plot(NotRandom_omega, x = 0.02, y = 0.02 , width = .70, height = 0.92) +
+    draw_plot(Random_omega, x = 0.75, y = 0.02, width = .20, height = 0.92) + 
+    draw_text("Concatenate GC3 (%)", x = 0.5, y = 0.015, size=9)+
+    draw_text("Correlation coefficient", angle = 90, x= 0.015, size=9) +
+    draw_text(paste("Correlation", CATEG,"~ dN/dS"), y=0.95, x= 0.02+0.025, hjust=0, size=9)
+  
+  plot_list[[i]] <- All
+  #All_legend <- plot_grid(All, legend, rel_widths = c(10, 1))
+  #All_legend
 
-All_legend <- plot_grid(All, legend, rel_widths = c(10, 1))
-All_legend
+}
 
-ggsave(plot=All_legend, paste("~/gnd/dN_dS/coevol_mapNH/Figure_2.png",sep=""),
+#Adding a legend to the last one
+plot_list[[i+1]] <- legend
+
+
+plot <- plot_grid(plotlist = plot_list, ncol=2)
+
+#width will be reduced
+ggsave(plot=plot, paste("~/gnd/dN_dS/coevol_mapNH/Figure_2.svg",sep=""),
        width=20,
-       height=10,
+       height=20,
        units="cm")
 
 
@@ -242,7 +266,7 @@ plot_list <- list()
 
 i=0
 
-for (CATEG in c("DNA","Helitron", "LINE", "LTR", "SINE", "TEs")){
+for (CATEG in c("DNA","Helitron", "LINE", "LTR", "SINE")){#"TEs"
   print(CATEG)
 
   i=i+1
@@ -261,24 +285,24 @@ for (CATEG in c("DNA","Helitron", "LINE", "LTR", "SINE", "TEs")){
   print("Plop")
   
   NotRandom_omega <- ggplot(df[df$concat!="Random" & df$categ==CATEG & df$proxy=="omega",],
-    aes(x=median_GC3,
+    aes(x=median_GC3*100,
         y=cc,
         color=pp_significant,
         shape=p.adj_significant)) + 
-    geom_point(size=1) +
+    geom_point(size=2) +
       geom_segment(data=df[df$concat!="Random" & df$categ==CATEG & df$proxy=="omega",],
-               aes(x=min_GC3,xend=max_GC3,y=cc,yend=cc))+
-    geom_abline(intercept = Intercept,
-                slope=Slope,
-                alpha=ifelse(P<0.05,1,0),
-                color="darkgray") +
-  annotate(geom="text",
-           x=0.7,
-           y=MAX-RANGE/10,
-           size=3,
-           alpha=ifelse(P<0.05,1,0),
-           label=paste("y=",as.character(round(Slope,2)),"x+",as.character(round(Intercept,2)),sep=""),
-           color="darkgray")+
+               aes(x=min_GC3*100,xend=max_GC3*100,y=cc,yend=cc))+
+    #geom_abline(intercept = Intercept,
+    #            slope=Slope,
+    #            alpha=ifelse(P<0.05,1,0),
+    #            color="darkgray") +
+  #annotate(geom="text",
+   #        x=0.7,
+   #         y=MAX-RANGE/10,
+   #        size=3,
+   #         alpha=ifelse(P<0.05,1,0),
+   #        label=paste("y=",as.character(round(Slope,2)),"x+",as.character(round(Intercept,2)),sep=""),
+   #       color="darkgray")+
     theme_bw()+
     theme(legend.position="none",
           text=element_text(size=9),
@@ -292,7 +316,7 @@ for (CATEG in c("DNA","Helitron", "LINE", "LTR", "SINE", "TEs")){
   Random_omega <- ggplot(df[df$concat=="Random" & df$categ==CATEG & df$proxy=="omega",],           aes(x=proxy,
         y=cc)) + 
     geom_boxplot()+
-    geom_jitter(aes(color=pp_significant, shape=p.adj_significant), size=1) +
+    geom_jitter(aes(color=pp_significant, shape=p.adj_significant), size=2) +
     theme_bw()+
     theme(legend.position="none",
           text=element_text(size=9),
@@ -309,7 +333,7 @@ for (CATEG in c("DNA","Helitron", "LINE", "LTR", "SINE", "TEs")){
         y=cc,
         color=pp_significant,
         shape=p.adj_significant)) + 
-    geom_point(size=1) +
+    geom_point(size=2) +
     theme_bw()+
     theme(text=element_text(size=9),
     legend.text.align = 0.5,
@@ -332,7 +356,7 @@ for (CATEG in c("DNA","Helitron", "LINE", "LTR", "SINE", "TEs")){
   All <- ggdraw() +
     draw_plot(NotRandom_omega, x = 0.02, y = 0.02 , width = .70, height = 0.92) +
     draw_plot(Random_omega, x = 0.75, y = 0.02, width = .20, height = 0.92) + 
-    draw_text("Concatenate GC3", x = 0.5, y = 0.015, size=9)+
+    draw_text("Concatenate GC3 (%)", x = 0.5, y = 0.015, size=9)+
     draw_text("Correlation coefficient", angle = 90, x= 0.015, size=9) +
     draw_text(paste("Correlation", CATEG,"~ dN/dS"), y=0.95, x= 0.02+0.025, hjust=0, size=9)
   
@@ -348,7 +372,7 @@ plot_list[[i]] <- All_legend
 
 plot <- plot_grid(plotlist = plot_list, ncol=2)
 
-ggsave(plot=plot, paste("~/gnd/dN_dS/coevol_mapNH/Sup.png",sep=""),
+ggsave(plot=plot, paste("~/gnd/dN_dS/coevol_mapNH/Sup.svg",sep=""),
        width=20,
        height=20,
        units="cm")
