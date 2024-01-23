@@ -1,0 +1,114 @@
+
+# to ultrametric tree
+
+```{python}
+#conda create -n ete3 python=3.6
+#conda activate ete3
+#mamba install -c etetoolkit ete3 ete_toolchain #conda does not work
+
+from ete3 import Tree
+
+t = Tree('(A:1,(B:1,(C:1,D:1):0.5):0.5);')
+# Root tree at B node.
+t.set_outgroup('B')  
+
+print('Non-ultrametric rooted tree:')
+print(t.write())
+print(t)
+
+t.convert_to_ultrametric()
+print('Ultrametric rooted tree:')
+print(t.write())
+print(t)
+
+#actual
+t = Tree("/home/vmerel/gnd/Tree/root_droso_tree_MF")
+t.convert_to_ultrametric()
+t.write(outfile="/home/vmerel/gnd/Tree/droso_ultrametric_tree")
+```
+
+#
+
+```{r, eval=F}
+library(ape)
+library(caper)
+library(dplyr)
+library(phytools)
+#library(knitr)
+#library(kableExtra)
+
+#Importing tree
+#tree <- read.tree("/home/vmerel/gnd/Tree/phylo.file")
+tree <- read.tree("/home/vmerel/gnd/Tree/droso_ultrametric_tree")
+#tree <- read.tree("/home/vmerel/gnd/Tree/root_droso_tree_MF")
+
+#tree <- force.ultrametric(tree, method=c("nnls","extend"))
+#tree <- read.tree("/home/vmerel/gnd/Tree/ultrametric_tree")
+tips_remove <- c("Dguanche","Dsubobscura","Dathabasca","me39rcatorum","Dobscura")
+tree <- drop.tip(tree,tips_remove, trim.internal = TRUE, subtree = FALSE,root.edge = 0, rooted = TRUE, collapse.singles = TRUE,interactive = FALSE)
+tree$node.label <- NULL #VM
+
+#Importing traits
+Traits <- read.delim("~/gnd/ancov/Traits.tsv")
+
+#An empty data.frame to fill
+df <- data.frame(
+  Var = character(),
+  Lambda = numeric(),
+  p = numeric())
+
+
+ID <- Traits$Id
+Traits <- Traits %>% dplyr::select(-c("Id")) #,"Dev"
+Variables <- colnames(Traits)
+
+#Restoring NA
+Traits[Traits == -1] <- NA
+
+#
+for (Variable in Variables){
+  
+  #Log ou pas log
+  if (Variable!="Dev"){
+    Vec <- log(Traits[,colnames(Traits) %in% Variable]) #log(
+  } else {
+    Vec <- Traits[,colnames(Traits) %in% Variable]
+  }
+  
+  names(Vec) <- ID
+  
+  Test <- phylosig(tree,
+           Vec,
+           method = "lambda",
+           test = TRUE) 
+  
+  tmp <- data.frame(Var = Variable,
+                    Lambda = Test$lambda,
+                    p = Test$P)
+                      
+  df <- rbind(df,tmp)
+    
+}
+
+df$p_adj <- p.adjust(df$p, method="BH")
+df$sig <- ifelse(df$p_adj<0.05,TRUE,FALSE)
+
+
+#nonultrametric_log <- df
+#nonultrametric_nolog <- df
+#ultrametric_log <- df
+#ultrametric_nolog <- df
+#forceultrametric_log <- df
+#forceultrametric_nolog <- df
+
+#nonultrametric_log$Info <- "nonultrametric_log"
+nonultrametric_nolog$Info <- "nonultrametric_nolog"
+ultrametric_log$Info <- "ultrametric_log"
+ultrametric_nolog$Info <- "ultrametric_nolog"
+forceultrametric_log$Info <- "forceultrametric_log"
+forceultrametric_nolog$Info <- "forceultrametric_nolog"
+
+All <- rbind(nonultrametric_log, nonultrametric_nolog, ultrametric_log, ultrametric_nolog,forceultrametric_log ,forceultrametric_nolog)
+```
+
+#
