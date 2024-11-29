@@ -61,7 +61,7 @@ tree <- read.tree("/beegfs/data/merel/GND/dN_dS/mapNH/Test/Tree.nwk")
 tree_tbl <- as_tibble(mapNH_dS) %>%
   select(branch.length, node)
 #binding
-df <- full_join(df,tree_tbl,by="node")
+df <- dplyr::full_join(df,tree_tbl,by="node")
 ##################################
 
 df$Aln=args[1]

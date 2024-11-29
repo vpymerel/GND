@@ -9,7 +9,7 @@ library(dplyr)
 #library(kableExtra)
 
 #Importing tree
-tree <- read.tree("/home/vincent/DTN/Tree/root_droso_tree_MF")
+tree <- read.tree("/home/vmerel/gnd/Tree/root_droso_tree_MF")
 tree$node.label <- NULL #VM
 
 #Importing traits
@@ -52,10 +52,9 @@ for (X_Name in X_Names){
     pgls_data = comparative.data(
       tree,
       data, 
-      ID, 
-      vcv=TRUE)
+      ID,      vcv=TRUE)
     
-    PGLS <- pgls(Yaxis ~ Xaxis, pgls_data) #lambda='ML', delta='ML'
+    PGLS <- pgls(Yaxis ~ Xaxis, pgls_data) #, lambda='ML', delta='ML'
     summary_PGLS <- summary(PGLS)
     
     PGLs_P <- summary_PGLS$coefficients[2,4]
@@ -73,3 +72,5 @@ for (X_Name in X_Names){
 }
 
 df$PGLs_p <- p.adjust(df$PGLs_p, method="BH")
+#saved <- df 
+

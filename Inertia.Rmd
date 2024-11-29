@@ -39,12 +39,14 @@ library(phytools)
 
 #Importing tree
 #tree <- read.tree("/home/vmerel/gnd/Tree/phylo.file")
-tree <- read.tree("/home/vmerel/gnd/Tree/droso_ultrametric_tree")
-#tree <- read.tree("/home/vmerel/gnd/Tree/root_droso_tree_MF")
+#tree <- read.tree("/home/vmerel/gnd/Tree/droso_ultrametric_tree")
+tree <- read.tree("/home/vmerel/gnd/Tree/root_droso_tree_MF")
 
 #tree <- force.ultrametric(tree, method=c("nnls","extend"))
 #tree <- read.tree("/home/vmerel/gnd/Tree/ultrametric_tree")
-tips_remove <- c("Dguanche","Dsubobscura","Dathabasca","me39rcatorum","Dobscura")
+tips_remove <- c("Dguanche",
+                 "Dsubobscura",
+                 "Dathabasca","me39rcatorum","Dobscura")
 tree <- drop.tip(tree,tips_remove, trim.internal = TRUE, subtree = FALSE,root.edge = 0, rooted = TRUE, collapse.singles = TRUE,interactive = FALSE)
 tree$node.label <- NULL #VM
 
@@ -91,7 +93,9 @@ for (Variable in Variables){
 }
 
 df$p_adj <- p.adjust(df$p, method="BH")
-df$sig <- ifelse(df$p_adj<0.05,TRUE,FALSE)
+df$sig <- ifelse(df$p_adj<0.05,
+                 TRUE,
+                 FALSE)
 
 
 #nonultrametric_log <- df

@@ -1,0 +1,51 @@
+Le concaténat 0 contient les 50 gènes les plus GC3 pauvres (de 0.31 à 0.52),
+le concaténat 1 contient les 50 gènes dont le GC3 est le plus proche du GC3 médian (0.70),
+le concaténat 2 contient les 50 concaténat les 50 gènes les plus GC3 riches (de 0.82 à 0.88). 
+Les 13 autres concaténats contiennent des gènes (sans réplicats), répartis dans des bins de GC3 de borne inférieure allant de 0.53 à 0.80 par pas de 0.02.
+
+#Step=0.02051589
+
+#Nombre de points: 16
+##Unordered
+#Aln0 0.3091603 0.5158951
+#Aln1 0.6991748 0.7028302
+#Aln2 0.8154362 0.8813559
+#Aln3 0.3964902 0.5242798 #Removed
+#Aln4 0.4351901 0.540152 #Removed
+#Aln5 0.4581749 0.5501355 #Removed
+#Aln6 0.4938017 0.5592417 #Removed
+#Aln7 0.5276908 0.5714286
+#Aln8 0.5698091 0.5860577
+#Aln9 0.5921584 0.6044304
+#Aln10 0.6145833 0.6238486
+#Aln11 0.6378601 0.6424205
+#Aln12 0.6575368 0.6628305
+#Aln13 0.6792215 0.6827655
+#Aln14 0.7000000 0.7035511
+#Aln15 0.7202572 0.7242340
+#Aln16 0.7411168 0.7449901
+#Aln17 0.7597956 0.7652961
+#Aln18 0.7807692 0.7872340
+#Aln19 0.7993421 0.8103448
+
+##Ordered
+#Aln0 0.3091603 0.5158951
+#Aln3 0.3964902 0.5242798 #Removed
+#Aln4 0.4351901 0.540152 #Removed
+#Aln5 0.4581749 0.5501355 #Removed
+#Aln6 0.4938017 0.5592417 #Removed
+#Aln7 0.5276908 0.5714286
+#Aln8 0.5698091 0.5860577
+#Aln9 0.5921584 0.6044304
+#Aln1 0.6991748 0.7028302
+#Aln10 0.6145833 0.6238486
+#Aln11 0.6378601 0.6424205
+#Aln12 0.6575368 0.6628305
+#Aln13 0.6792215 0.6827655
+#Aln14 0.7000000 0.7035511
+#Aln15 0.7202572 0.7242340
+#Aln16 0.7411168 0.7449901
+#Aln17 0.7597956 0.7652961
+#Aln18 0.7807692 0.7872340
+#Aln19 0.7993421 0.8103448
+#Aln2 0.8154362 0.8813559

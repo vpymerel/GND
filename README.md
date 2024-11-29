@@ -1,6 +1,6 @@
 # GND
 
-You will find in this repository scripts and data corresponding to **Publication Title** (**Publication link**). Please find below a description of directories content.
+You will find in this repository scripts and data corresponding to [Relaxed purifying selection is associated with an accumulation of transposable elements in flies](https://www.biorxiv.org/content/10.1101/2024.01.23.576885v2.full.pdf). Please find below a description of directories content.
 
 ## Assemblies
 
@@ -65,8 +65,3 @@ You will find in this repository scripts and data corresponding to **Publication
 - Supplementary_tables.csv;
 - Supplementary_figure.odt.
 
-## To Do
-
-- Add **Publication Title** and **Publication link**;
-- read this: Relaxation of purifying selection suggests low effective population size in eusocial Hymenoptera and solitary pollinating bees;
-- root in the correlation ?

@@ -1,0 +1,103 @@
+
+# to ultrametric tree
+
+```{bash, eval=F}
+mkdir -p /home/vmerel/GND/lsd/
+cd /home/vmerel/GND/lsd/
+cp /home/vmerel/gnd/Tree/root_droso_tree_MF ./
+
+/home/vmerel/softs/lsd-0.2/src/lsd \
+-i root_droso_tree_MF -c -a 0 -z 1
+
+~/softs/seaview/seaview root_droso_tree_MF.result.date.newick &
+```
+
+#
+
+```{r, eval=F}
+library(ape)
+library(caper)
+library(dplyr)
+library(phytools)
+#library(knitr)
+#library(kableExtra)
+
+#Importing tree
+#tree <- read.tree("/home/vmerel/gnd/Tree/phylo.file")
+#tree <- read.tree("/home/vmerel/gnd/Tree/droso_ultrametric_tree")
+tree <- read.tree("/home/vmerel/GND/lsd/root_droso_tree_MF.result.date.newick")
+
+#tree <- force.ultrametric(tree, method=c("nnls","extend"))
+#tree <- read.tree("/home/vmerel/gnd/Tree/ultrametric_tree")
+tips_remove <- c("Dguanche",
+                 "Dsubobscura",
+                 "Dathabasca","me39rcatorum","Dobscura")
+tree <- drop.tip(tree,tips_remove, trim.internal = TRUE, subtree = FALSE,root.edge = 0, rooted = TRUE, collapse.singles = TRUE,interactive = FALSE)
+tree$node.label <- NULL #VM
+
+#Importing traits
+Traits <- read.delim("~/gnd/ancov/Traits.tsv")
+
+#An empty data.frame to fill
+df <- data.frame(
+  Var = character(),
+  Lambda = numeric(),
+  p = numeric())
+
+
+ID <- Traits$Id
+Traits <- Traits %>% dplyr::select(-c("Id")) #,"Dev"
+Variables <- colnames(Traits)
+
+#Restoring NA
+Traits[Traits == -1] <- NA
+
+#
+for (Variable in Variables){
+  
+  #Log ou pas log
+  if (Variable!="Dev"){
+    Vec <- log(Traits[,colnames(Traits) %in% Variable]) #log(log(
+  } else {
+    Vec <- Traits[,colnames(Traits) %in% Variable]
+  }
+  
+  names(Vec) <- ID
+  
+  Test <- phylosig(tree,
+           Vec,
+           method = "lambda",
+           test = TRUE) 
+  
+  tmp <- data.frame(Var = Variable,
+                    Lambda = Test$lambda,
+                    p = Test$P)
+                      
+  df <- rbind(df,tmp)
+    
+}
+
+df$p_adj <- p.adjust(df$p, method="BH")
+df$sig <- ifelse(df$p_adj<0.05,
+                 TRUE,
+                 FALSE)
+
+
+#nonultrametric_log <- df
+#nonultrametric_nolog <- df
+#ultrametric_log <- df
+#ultrametric_nolog <- df
+#forceultrametric_log <- df
+#forceultrametric_nolog <- df
+
+#nonultrametric_log$Info <- "nonultrametric_log"
+nonultrametric_nolog$Info <- "nonultrametric_nolog"
+ultrametric_log$Info <- "ultrametric_log"
+ultrametric_nolog$Info <- "ultrametric_nolog"
+forceultrametric_log$Info <- "forceultrametric_log"
+forceultrametric_nolog$Info <- "forceultrametric_nolog"
+
+All <- rbind(nonultrametric_log, nonultrametric_nolog, ultrametric_log, ultrametric_nolog,forceultrametric_log ,forceultrametric_nolog)
+```
+
+#

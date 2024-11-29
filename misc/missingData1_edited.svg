@@ -1,0 +1,596 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   class="svglite"
+   width="425.20pt"
+   height="283.46pt"
+   viewBox="0 0 425.20 283.46"
+   version="1.1"
+   id="svg174"
+   sodipodi:docname="missingData1_edited.svg"
+   inkscape:version="1.1.2 (0a00cf5339, 2022-02-04)"
+   inkscape:export-filename="/home/vmerel/gnd/misc/missingData1_edited.png"
+   inkscape:export-xdpi="1000"
+   inkscape:export-ydpi="1000"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview176"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:document-units="pt"
+     showgrid="false"
+     inkscape:zoom="2.2542332"
+     inkscape:cx="283.46667"
+     inkscape:cy="188.75598"
+     inkscape:window-width="2486"
+     inkscape:window-height="1376"
+     inkscape:window-x="74"
+     inkscape:window-y="27"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg174" />
+  <defs
+     id="defs4">
+    <rect
+       x="96.706941"
+       y="141.06792"
+       width="99.81221"
+       height="78.518938"
+       id="rect2725" />
+    <style
+       type="text/css"
+       id="style2"><![CDATA[
+    .svglite line, .svglite polyline, .svglite polygon, .svglite path, .svglite rect, .svglite circle {
+      fill: none;
+      stroke: #000000;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      stroke-miterlimit: 10.00;
+    }
+    .svglite text {
+      white-space: pre;
+    }
+  ]]></style>
+  </defs>
+  <rect
+     width="100%"
+     height="100%"
+     style="stroke: none; fill: #FFFFFF;"
+     id="rect6" />
+  <defs
+     id="defs11">
+    <clipPath
+       id="cpMC4wMHw0MjUuMjB8MC4wMHwyODMuNDY=">
+      <rect
+         x="0.00"
+         y="0.00"
+         width="425.20"
+         height="283.46"
+         id="rect8" />
+    </clipPath>
+  </defs>
+  <g
+     clip-path="url(#cpMC4wMHw0MjUuMjB8MC4wMHwyODMuNDY=)"
+     id="g15">
+    <rect
+       x="0.00"
+       y="0.00"
+       width="425.20"
+       height="283.46"
+       style="stroke-width: 1.07; stroke: #FFFFFF; fill: #FFFFFF;"
+       id="rect13" />
+  </g>
+  <defs
+     id="defs20">
+    <clipPath
+       id="cpNDMuMDR8NDE5LjcyfDUuNDh8MjUxLjc2">
+      <rect
+         x="43.04"
+         y="5.48"
+         width="376.68"
+         height="246.28"
+         id="rect17" />
+    </clipPath>
+  </defs>
+  <g
+     clip-path="url(#cpNDMuMDR8NDE5LjcyfDUuNDh8MjUxLjc2)"
+     id="g126">
+    <rect
+       x="43.04"
+       y="5.48"
+       width="376.68"
+       height="246.28"
+       style="stroke-width: 1.07; stroke: none; fill: #FFFFFF;"
+       id="rect22" />
+    <polyline
+       points="43.04,217.24 419.72,217.24 "
+       style="stroke-width: 0.53; stroke: #EBEBEB; stroke-linecap: butt;"
+       id="polyline24" />
+    <polyline
+       points="43.04,170.60 419.72,170.60 "
+       style="stroke-width: 0.53; stroke: #EBEBEB; stroke-linecap: butt;"
+       id="polyline26" />
+    <polyline
+       points="43.04,123.96 419.72,123.96 "
+       style="stroke-width: 0.53; stroke: #EBEBEB; stroke-linecap: butt;"
+       id="polyline28" />
+    <polyline
+       points="43.04,77.31 419.72,77.31 "
+       style="stroke-width: 0.53; stroke: #EBEBEB; stroke-linecap: butt;"
+       id="polyline30" />
+    <polyline
+       points="43.04,30.67 419.72,30.67 "
+       style="stroke-width: 0.53; stroke: #EBEBEB; stroke-linecap: butt;"
+       id="polyline32" />
+    <polyline
+       points="75.09,251.76 75.09,5.48 "
+       style="stroke-width: 0.53; stroke: #EBEBEB; stroke-linecap: butt;"
+       id="polyline34" />
+    <polyline
+       points="155.53,251.76 155.53,5.48 "
+       style="stroke-width: 0.53; stroke: #EBEBEB; stroke-linecap: butt;"
+       id="polyline36" />
+    <polyline
+       points="235.98,251.76 235.98,5.48 "
+       style="stroke-width: 0.53; stroke: #EBEBEB; stroke-linecap: butt;"
+       id="polyline38" />
+    <polyline
+       points="316.42,251.76 316.42,5.48 "
+       style="stroke-width: 0.53; stroke: #EBEBEB; stroke-linecap: butt;"
+       id="polyline40" />
+    <polyline
+       points="396.86,251.76 396.86,5.48 "
+       style="stroke-width: 0.53; stroke: #EBEBEB; stroke-linecap: butt;"
+       id="polyline42" />
+    <polyline
+       points="43.04,240.56 419.72,240.56 "
+       style="stroke-width: 1.07; stroke: #EBEBEB; stroke-linecap: butt;"
+       id="polyline44" />
+    <polyline
+       points="43.04,193.92 419.72,193.92 "
+       style="stroke-width: 1.07; stroke: #EBEBEB; stroke-linecap: butt;"
+       id="polyline46" />
+    <polyline
+       points="43.04,147.28 419.72,147.28 "
+       style="stroke-width: 1.07; stroke: #EBEBEB; stroke-linecap: butt;"
+       id="polyline48" />
+    <polyline
+       points="43.04,100.63 419.72,100.63 "
+       style="stroke-width: 1.07; stroke: #EBEBEB; stroke-linecap: butt;"
+       id="polyline50" />
+    <polyline
+       points="43.04,53.99 419.72,53.99 "
+       style="stroke-width: 1.07; stroke: #EBEBEB; stroke-linecap: butt;"
+       id="polyline52" />
+    <polyline
+       points="43.04,7.35 419.72,7.35 "
+       style="stroke-width: 1.07; stroke: #EBEBEB; stroke-linecap: butt;"
+       id="polyline54" />
+    <polyline
+       points="115.31,251.76 115.31,5.48 "
+       style="stroke-width: 1.07; stroke: #EBEBEB; stroke-linecap: butt;"
+       id="polyline56" />
+    <polyline
+       points="195.75,251.76 195.75,5.48 "
+       style="stroke-width: 1.07; stroke: #EBEBEB; stroke-linecap: butt;"
+       id="polyline58" />
+    <polyline
+       points="276.20,251.76 276.20,5.48 "
+       style="stroke-width: 1.07; stroke: #EBEBEB; stroke-linecap: butt;"
+       id="polyline60" />
+    <polyline
+       points="356.64,251.76 356.64,5.48 "
+       style="stroke-width: 1.07; stroke: #EBEBEB; stroke-linecap: butt;"
+       id="polyline62" />
+    <rect
+       x="60.16"
+       y="203.25"
+       width="11.41"
+       height="37.32"
+       style="stroke-width: 1.07; stroke: none; stroke-linecap: butt; stroke-linejoin: miter; fill: #595959;"
+       id="rect64" />
+    <rect
+       x="71.57"
+       y="240.56"
+       width="11.41"
+       height="0.00"
+       style="stroke-width: 1.07; stroke: none; stroke-linecap: butt; stroke-linejoin: miter; fill: #595959;"
+       id="rect66" />
+    <rect
+       x="82.99"
+       y="203.25"
+       width="11.41"
+       height="37.32"
+       style="stroke-width: 1.07; stroke: none; stroke-linecap: butt; stroke-linejoin: miter; fill: #595959;"
+       id="rect68" />
+    <rect
+       x="94.40"
+       y="203.25"
+       width="11.41"
+       height="37.32"
+       style="stroke-width: 1.07; stroke: none; stroke-linecap: butt; stroke-linejoin: miter; fill: #595959;"
+       id="rect70" />
+    <rect
+       x="105.82"
+       y="240.56"
+       width="11.41"
+       height="0.00"
+       style="stroke-width: 1.07; stroke: none; stroke-linecap: butt; stroke-linejoin: miter; fill: #595959;"
+       id="rect72" />
+    <rect
+       x="117.23"
+       y="240.56"
+       width="11.41"
+       height="0.00"
+       style="stroke-width: 1.07; stroke: none; stroke-linecap: butt; stroke-linejoin: miter; fill: #595959;"
+       id="rect74" />
+    <rect
+       x="128.65"
+       y="240.56"
+       width="11.41"
+       height="0.00"
+       style="stroke-width: 1.07; stroke: none; stroke-linecap: butt; stroke-linejoin: miter; fill: #595959;"
+       id="rect76" />
+    <rect
+       x="140.06"
+       y="221.91"
+       width="11.41"
+       height="18.66"
+       style="stroke-width: 1.07; stroke: none; stroke-linecap: butt; stroke-linejoin: miter; fill: #595959;"
+       id="rect78" />
+    <rect
+       x="151.48"
+       y="203.25"
+       width="11.41"
+       height="37.32"
+       style="stroke-width: 1.07; stroke: none; stroke-linecap: butt; stroke-linejoin: miter; fill: #595959;"
+       id="rect80" />
+    <rect
+       x="162.89"
+       y="203.25"
+       width="11.41"
+       height="37.32"
+       style="stroke-width: 1.07; stroke: none; stroke-linecap: butt; stroke-linejoin: miter; fill: #595959;"
+       id="rect82" />
+    <rect
+       x="174.30"
+       y="165.93"
+       width="11.41"
+       height="74.63"
+       style="stroke-width: 1.07; stroke: none; stroke-linecap: butt; stroke-linejoin: miter; fill: #595959;"
+       id="rect84" />
+    <rect
+       x="185.72"
+       y="221.91"
+       width="11.41"
+       height="18.66"
+       style="stroke-width: 1.07; stroke: none; stroke-linecap: butt; stroke-linejoin: miter; fill: #595959;"
+       id="rect86" />
+    <rect
+       x="197.13"
+       y="221.91"
+       width="11.41"
+       height="18.66"
+       style="stroke-width: 1.07; stroke: none; stroke-linecap: butt; stroke-linejoin: miter; fill: #595959;"
+       id="rect88" />
+    <rect
+       x="208.55"
+       y="203.25"
+       width="11.41"
+       height="37.32"
+       style="stroke-width: 1.07; stroke: none; stroke-linecap: butt; stroke-linejoin: miter; fill: #595959;"
+       id="rect90" />
+    <rect
+       x="219.96"
+       y="165.93"
+       width="11.41"
+       height="74.63"
+       style="stroke-width: 1.07; stroke: none; stroke-linecap: butt; stroke-linejoin: miter; fill: #595959;"
+       id="rect92" />
+    <rect
+       x="231.38"
+       y="165.93"
+       width="11.41"
+       height="74.63"
+       style="stroke-width: 1.07; stroke: none; stroke-linecap: butt; stroke-linejoin: miter; fill: #595959;"
+       id="rect94" />
+    <rect
+       x="242.79"
+       y="203.25"
+       width="11.41"
+       height="37.32"
+       style="stroke-width: 1.07; stroke: none; stroke-linecap: butt; stroke-linejoin: miter; fill: #595959;"
+       id="rect96" />
+    <rect
+       x="254.21"
+       y="147.28"
+       width="11.41"
+       height="93.29"
+       style="stroke-width: 1.07; stroke: none; stroke-linecap: butt; stroke-linejoin: miter; fill: #595959;"
+       id="rect98" />
+    <rect
+       x="265.62"
+       y="221.91"
+       width="11.41"
+       height="18.66"
+       style="stroke-width: 1.07; stroke: none; stroke-linecap: butt; stroke-linejoin: miter; fill: #595959;"
+       id="rect100" />
+    <rect
+       x="277.04"
+       y="128.62"
+       width="11.41"
+       height="111.95"
+       style="stroke-width: 1.07; stroke: none; stroke-linecap: butt; stroke-linejoin: miter; fill: #595959;"
+       id="rect102" />
+    <rect
+       x="288.45"
+       y="184.59"
+       width="11.41"
+       height="55.97"
+       style="stroke-width: 1.07; stroke: none; stroke-linecap: butt; stroke-linejoin: miter; fill: #595959;"
+       id="rect104" />
+    <rect
+       x="299.86"
+       y="128.62"
+       width="11.41"
+       height="111.95"
+       style="stroke-width: 1.07; stroke: none; stroke-linecap: butt; stroke-linejoin: miter; fill: #595959;"
+       id="rect106" />
+    <rect
+       x="311.28"
+       y="16.67"
+       width="11.41"
+       height="223.89"
+       style="stroke-width: 1.07; stroke: none; stroke-linecap: butt; stroke-linejoin: miter; fill: #595959;"
+       id="rect108" />
+    <rect
+       x="322.69"
+       y="128.62"
+       width="11.41"
+       height="111.95"
+       style="stroke-width: 1.07; stroke: none; stroke-linecap: butt; stroke-linejoin: miter; fill: #595959;"
+       id="rect110" />
+    <rect
+       x="334.11"
+       y="203.25"
+       width="11.41"
+       height="37.32"
+       style="stroke-width: 1.07; stroke: none; stroke-linecap: butt; stroke-linejoin: miter; fill: #595959;"
+       id="rect112" />
+    <rect
+       x="345.52"
+       y="109.96"
+       width="11.41"
+       height="130.60"
+       style="stroke-width: 1.07; stroke: none; stroke-linecap: butt; stroke-linejoin: miter; fill: #595959;"
+       id="rect114" />
+    <rect
+       x="356.94"
+       y="221.91"
+       width="11.41"
+       height="18.66"
+       style="stroke-width: 1.07; stroke: none; stroke-linecap: butt; stroke-linejoin: miter; fill: #595959;"
+       id="rect116" />
+    <rect
+       x="368.35"
+       y="184.59"
+       width="11.41"
+       height="55.97"
+       style="stroke-width: 1.07; stroke: none; stroke-linecap: butt; stroke-linejoin: miter; fill: #595959;"
+       id="rect118" />
+    <rect
+       x="379.77"
+       y="240.56"
+       width="11.41"
+       height="0.00"
+       style="stroke-width: 1.07; stroke: none; stroke-linecap: butt; stroke-linejoin: miter; fill: #595959;"
+       id="rect120" />
+    <rect
+       x="391.18"
+       y="221.91"
+       width="11.41"
+       height="18.66"
+       style="stroke-width: 1.07; stroke: none; stroke-linecap: butt; stroke-linejoin: miter; fill: #595959;"
+       id="rect122" />
+    <rect
+       x="43.04"
+       y="5.48"
+       width="376.68"
+       height="246.28"
+       style="stroke-width: 1.07; stroke: #333333;"
+       id="rect124" />
+  </g>
+  <g
+     clip-path="url(#cpMC4wMHw0MjUuMjB8MC4wMHwyODMuNDY=)"
+     id="g172">
+    <text
+       x="38.11"
+       y="243.77"
+       text-anchor="end"
+       style="font-size: 8.80px;fill: #4D4D4D; font-family: &quot;Liberation Sans&quot;;"
+       textLength="13.98px"
+       lengthAdjust="spacingAndGlyphs"
+       id="text128">0.0</text>
+    <text
+       x="38.11"
+       y="197.13"
+       text-anchor="end"
+       style="font-size: 8.80px;fill: #4D4D4D; font-family: &quot;Liberation Sans&quot;;"
+       textLength="13.98px"
+       lengthAdjust="spacingAndGlyphs"
+       id="text130">2.5</text>
+    <text
+       x="38.11"
+       y="150.48"
+       text-anchor="end"
+       style="font-size: 8.80px;fill: #4D4D4D; font-family: &quot;Liberation Sans&quot;;"
+       textLength="13.98px"
+       lengthAdjust="spacingAndGlyphs"
+       id="text132">5.0</text>
+    <text
+       x="38.11"
+       y="103.84"
+       text-anchor="end"
+       style="font-size: 8.80px;fill: #4D4D4D; font-family: &quot;Liberation Sans&quot;;"
+       textLength="13.98px"
+       lengthAdjust="spacingAndGlyphs"
+       id="text134">7.5</text>
+    <text
+       x="38.11"
+       y="57.20"
+       text-anchor="end"
+       style="font-size: 8.80px;fill: #4D4D4D; font-family: &quot;Liberation Sans&quot;;"
+       textLength="19.58px"
+       lengthAdjust="spacingAndGlyphs"
+       id="text136">10.0</text>
+    <text
+       x="38.11"
+       y="10.55"
+       text-anchor="end"
+       style="font-size: 8.80px;fill: #4D4D4D; font-family: &quot;Liberation Sans&quot;;"
+       textLength="19.58px"
+       lengthAdjust="spacingAndGlyphs"
+       id="text138">12.5</text>
+    <polyline
+       points="40.30,240.56 43.04,240.56 "
+       style="stroke-width: 1.07; stroke: #333333; stroke-linecap: butt;"
+       id="polyline140" />
+    <polyline
+       points="40.30,193.92 43.04,193.92 "
+       style="stroke-width: 1.07; stroke: #333333; stroke-linecap: butt;"
+       id="polyline142" />
+    <polyline
+       points="40.30,147.28 43.04,147.28 "
+       style="stroke-width: 1.07; stroke: #333333; stroke-linecap: butt;"
+       id="polyline144" />
+    <polyline
+       points="40.30,100.63 43.04,100.63 "
+       style="stroke-width: 1.07; stroke: #333333; stroke-linecap: butt;"
+       id="polyline146" />
+    <polyline
+       points="40.30,53.99 43.04,53.99 "
+       style="stroke-width: 1.07; stroke: #333333; stroke-linecap: butt;"
+       id="polyline148" />
+    <polyline
+       points="40.30,7.35 43.04,7.35 "
+       style="stroke-width: 1.07; stroke: #333333; stroke-linecap: butt;"
+       id="polyline150" />
+    <polyline
+       points="115.31,254.50 115.31,251.76 "
+       style="stroke-width: 1.07; stroke: #333333; stroke-linecap: butt;"
+       id="polyline152" />
+    <polyline
+       points="195.75,254.50 195.75,251.76 "
+       style="stroke-width: 1.07; stroke: #333333; stroke-linecap: butt;"
+       id="polyline154" />
+    <polyline
+       points="276.20,254.50 276.20,251.76 "
+       style="stroke-width: 1.07; stroke: #333333; stroke-linecap: butt;"
+       id="polyline156" />
+    <polyline
+       points="356.64,254.50 356.64,251.76 "
+       style="stroke-width: 1.07; stroke: #333333; stroke-linecap: butt;"
+       id="polyline158" />
+    <text
+       x="115.31"
+       y="263.11"
+       text-anchor="middle"
+       style="font-size: 8.80px;fill: #4D4D4D; font-family: &quot;Liberation Sans&quot;;"
+       textLength="22.38px"
+       lengthAdjust="spacingAndGlyphs"
+       id="text160">1400</text>
+    <text
+       x="195.75"
+       y="263.11"
+       text-anchor="middle"
+       style="font-size: 8.80px;fill: #4D4D4D; font-family: &quot;Liberation Sans&quot;;"
+       textLength="22.38px"
+       lengthAdjust="spacingAndGlyphs"
+       id="text162">1600</text>
+    <text
+       x="276.20"
+       y="263.11"
+       text-anchor="middle"
+       style="font-size: 8.80px;fill: #4D4D4D; font-family: &quot;Liberation Sans&quot;;"
+       textLength="22.38px"
+       lengthAdjust="spacingAndGlyphs"
+       id="text164">1800</text>
+    <text
+       x="356.64"
+       y="263.11"
+       text-anchor="middle"
+       style="font-size: 8.80px;fill: #4D4D4D; font-family: &quot;Liberation Sans&quot;;"
+       textLength="22.38px"
+       lengthAdjust="spacingAndGlyphs"
+       id="text166">2000</text>
+    <text
+       x="231.38"
+       y="275.70"
+       text-anchor="middle"
+       style="font-size: 11.00px; font-family: &quot;Liberation Sans&quot;;"
+       textLength="66.42px"
+       lengthAdjust="spacingAndGlyphs"
+       id="text168"># Orthologs</text>
+    <text
+       transform="translate(13.50,128.62) rotate(-90)"
+       text-anchor="middle"
+       style="font-size: 11.00px; font-family: &quot;Liberation Sans&quot;;"
+       textLength="55.06px"
+       lengthAdjust="spacingAndGlyphs"
+       id="text170"># Species</text>
+  </g>
+  <rect
+     style="fill:none;stroke:#bf0041;stroke-width:0.833385;stroke-linecap:square;stroke-miterlimit:10;stroke-dashoffset:0.850394"
+     id="rect1015"
+     width="57.751625"
+     height="56.460777"
+     x="54.558376"
+     y="192.29922"
+     ry="3.36129" />
+  <text
+     xml:space="preserve"
+     transform="matrix(0.75,0,0,0.75,-27.953052,52.235056)"
+     id="text2723"
+     style="font-size:8px;line-height:0.9;font-family:FreeSans;-inkscape-font-specification:FreeSans;text-align:center;white-space:pre;shape-inside:url(#rect2725);fill:none;stroke:#bf0041;stroke-width:0.710667;stroke-linecap:square;stroke-miterlimit:10;stroke-dasharray:none;stroke-dashoffset:0.850394"><tspan
+       x="120.46933"
+       y="147.06836"
+       id="tspan16216"><tspan
+         style="font-style:italic;-inkscape-font-specification:'FreeSans Italic'"
+         id="tspan16214">D. albomicans,
+</tspan></tspan><tspan
+       x="128.80532"
+       y="154.26836"
+       id="tspan16220"><tspan
+         style="font-style:italic;-inkscape-font-specification:'FreeSans Italic'"
+         id="tspan16218">D. nasuta,
+</tspan></tspan><tspan
+       x="126.63331"
+       y="161.46835"
+       id="tspan16224"><tspan
+         style="font-style:italic;-inkscape-font-specification:'FreeSans Italic'"
+         id="tspan16222">D. navojoa,
+</tspan></tspan><tspan
+       x="120.29734"
+       y="168.66835"
+       id="tspan16228"><tspan
+         style="font-style:italic;-inkscape-font-specification:'FreeSans Italic'"
+         id="tspan16226">D. paulistorum,
+</tspan></tspan><tspan
+       x="125.00534"
+       y="175.86835"
+       id="tspan16232"><tspan
+         style="font-style:italic;-inkscape-font-specification:'FreeSans Italic'"
+         id="tspan16230">Z. africanus,
+</tspan></tspan><tspan
+       x="122.74134"
+       y="183.06834"
+       id="tspan16236"><tspan
+         style="font-style:italic;-inkscape-font-specification:'FreeSans Italic'"
+         id="tspan16234">Z. gabonicus,
+</tspan></tspan></text>
+</svg>

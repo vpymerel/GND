@@ -1,0 +1,101 @@
+```{bash, eval=F}
+scp merel@pbil-gates.univ-lyon1.fr:/beegfs/data/merel/GND/Alignments/cub_table.txt ~/gnd/misc
+```
+
+# Orthologs per species
+
+
+```{R}
+library(dplyr)
+library(ggplot2)
+
+cub_table<-read.table(file = "~/gnd/misc/cub_table.txt", dec = ".",h=TRUE)
+
+#removing filtered_out - already done
+
+cub_table_summary <- cub_table %>%
+  group_by(species) %>%
+  summarize(N=n())
+
+ggplot(cub_table_summary,
+       aes(x=N))+
+  geom_histogram()+
+  theme_bw()+
+  xlab("# Orthologs")+
+  ylab("# Species")
+
+
+ggsave("~/gnd/misc/missingData1.svg",
+       units="cm",
+       width=15,
+       height=10)
+
+
+#<1400
+##Zgabonicus
+##Dnavojoa
+##Zafricanus
+##paulistrom
+##Dnasuta
+##Dalbomicans
+```
+
+
+# coevol per species
+
+```{R}
+Cor <- read.table("~/gnd/dN_dS/coevol_mapNH/Cor.csv", quote="\"", comment.char="")
+head(Cor)
+colnames(Cor) <- c("node",
+                   "omega_mapNH",
+                   "omega_coevol",
+                   "branch.length",
+                   "Aln",
+                   "min_GC3",
+                   "max_GC3",
+                   "median_GC3")
+
+#removing overlap
+Cor <- Cor[Cor$Aln!="Aln3" & Cor$Aln!="Aln4" & Cor$Aln!="Aln5" & Cor$Aln!="Aln6",]
+
+
+#out of curiosity
+#No Random (i.e. Aln > )
+Random_list <- paste("Aln",20:29,collapse=NULL, sep="")
+
+Cor <- Cor %>%
+  mutate(concat=ifelse(grepl(paste(Random_list,collapse='|'),Aln),"Random","NotRandom")) 
+
+#Outliers
+
+##Zgabonicus #Correctly placed #19
+##Dnavojoa #Correctly placed #4
+##Zafricanus #Correctly placed #18
+##paulistrom #Correctly placed #27
+##Dnasuta #Correctly placed #22
+##Dalbomicans #Correctly placed #21
+
+outliers = c(19,4,18,27,22,21)
+Cor <- Cor %>%
+  mutate(outlier=ifelse(node %in% outliers,"D. albomicans,\n D. nasuta,\n D. navojoa,\n D. paulistorum,\n Z. africanus,\n Z. gabonicus", "Others")) 
+
+Cor$outlier <- as.factor(Cor$outlier)
+Cor$outlier <- factor(Cor$outlier, levels=c("D. albomicans,\n D. nasuta,\n D. navojoa,\n D. paulistorum,\n Z. africanus,\n Z. gabonicus","Others"))
+
+ggplot(Cor,
+       aes(x=outlier,
+           y=omega_coevol))+
+  geom_boxplot()+
+  geom_point(data=Cor, aes(color=node))+
+  theme_bw()+
+  theme(axis.title.x=element_blank())+
+  ylab("omega (coevol)")
+
+
+ggsave("~/gnd/misc/missingData2.png",
+       units="cm",
+       width=15,
+       height=10)
+
+length(summary(as.factor(Cor$Aln)))*82
+nrow(Cor)

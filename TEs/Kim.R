@@ -71,10 +71,7 @@ ggscatter(All, x="RM", y="dnaPipeTE", add="reg.line")+
   ylab("This study, dnaPipeTE")
 
 
-ggsave("~/gnd/TEs/Kim.png",
-       units="cm",
-       height=20,
-       width=16)
+
 
 #p.adj
 cor.test(All$RM[All$Categ=="DNA"], All$dnaPipeTE[All$Categ=="DNA"])
@@ -84,3 +81,39 @@ cor.test(All$RM[All$Categ=="Retrotransposons"], All$dnaPipeTE[All$Categ=="Retrot
 
 p <- c(8.031e-06, 8.237e-07, 1.538e-06)
 p.adjust(p,method="BH")
+
+#Adding a no outlier
+Outlier_values <- sort(All$RM[All$Categ=="Retrotransposons"], decreasing=T)[1:2]
+Outlier_ids <- All$Id[All$RM %in% Outlier_values]
+notOutlier_ids <- All$Id[!(All$Id %in% Outlier_ids)]
+
+Retrotransponsons_noOutlier <- All %>%
+  filter(Id %in% notOutlier_ids) %>% filter(Categ=="Retrotransposons")
+Retrotransponsons_noOutlier$Categ="Retrotransponsons (no D. paulistorum)"
+
+All_extended <- rbind(All, Retrotransponsons_noOutlier)
+All_extended$Categ <- factor(All_extended$Categ, levels = c("DNA","Helitron","Retrotransposons","Retrotransponsons (no D. paulistorum)"))
+All_extended %>%
+  ggscatter( x="RM", y="dnaPipeTE", add="reg.line")+
+  facet_wrap(.~Categ, nrow=4, scales = "free")+
+  geom_abline(slope=1, linetype="dashed")+
+  facet_wrap(.~Categ, nrow=4, scales = "free")+
+  stat_cor(aes(label = ifelse(..p.value..<0.01,..rr.label..," ")),
+           method = "pearson",
+           size=3.5,
+           label.x.npc = 0.8,
+           label.y.npc = 0.8,
+           color="darkred")+
+  #ggrepel::geom_text_repel(aes(label=label),
+  #              fontface = "italic",
+  #              size=3.25)+
+  theme_bw()+
+  xlab("Kim et al. (2021), RepeatMasker (Mb)")+
+  ylab("This study, dnaPipeTE (Mb)")
+
+ggsave("~/gnd/TEs/Kim.svg",
+       units="cm",
+       height=20,
+       width=16)
+
+sort(All$RM[All$Categ=="Retrotransposons"], decreasing=T)[1:3]

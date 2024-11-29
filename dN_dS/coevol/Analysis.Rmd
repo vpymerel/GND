@@ -212,6 +212,8 @@ All_legend <- plot_grid(All, legend, rel_widths = c(10, 1))
 
 ggsave(plot=All_legend, paste("~/gnd/dN_dS/coevol/",CATEG,".pdf",sep=""),width=20,height=10,units="cm")
 }
+
+
 ```
 
 # Adding GC, min, max, median
